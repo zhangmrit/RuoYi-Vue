@@ -117,6 +117,43 @@ export const constantRoutes = [
         meta: { title: '修改生成配置' }
       }
     ]
+  },
+  {
+    path: '/test',
+    component: Layout,
+    redirect: 'noRedirect',
+    meta: { title: '测试组件', icon: 'skill' },
+    children: [
+      {
+        path: 'nested',
+        redirect: '/test/nested/nested1',
+        component: (resolve) => require(['@/views/test/nested/index'], resolve),
+        name: 'nested',
+        meta: { title: '嵌套路由', icon: 'nested' },
+        children: [
+          {
+            path: 'nested1',
+            component: (resolve) => require(['@/views/test/nested/nested1'], resolve),
+            name: 'nested1',
+            hidden: true,
+            meta: { title: '嵌套一', activeMenu: '/test/nested' }
+          },
+          {
+            path: 'nested2',
+            component: (resolve) => require(['@/views/test/nested/nested2'], resolve),
+            name: 'nested2',
+            hidden: true,
+            meta: { title: '嵌套二', activeMenu: '/test/nested' }
+          }
+        ]
+      },
+      {
+        path: 'notnest',
+        component: (resolve) => require(['@/views/test/notnest/index'], resolve),
+        name: 'notnest',
+        meta: { title: '非嵌套路由', icon: 'list' },
+      }
+    ]
   }
 ]
 

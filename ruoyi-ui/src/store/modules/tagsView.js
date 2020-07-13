@@ -1,6 +1,7 @@
+const cachedRoutes = ['nested']
 const state = {
   visitedViews: [],
-  cachedViews: []
+  cachedViews: cachedRoutes
 }
 
 const mutations = {
