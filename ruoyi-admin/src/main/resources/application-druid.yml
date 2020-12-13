@@ -1,57 +1,64 @@
 # 数据源配置
 spring:
+  # 配置sharding jdbc分片规则
+  shardingsphere:
     datasource:
+      # 连接名称（下面要用这个名称来区分库）
+      names: ds0,ds1
+      ds0:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
-        druid:
-            # 主库数据源
-            master:
-                url: jdbc:mysql://localhost:3306/ry-vue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-                username: root
-                password: password
-            # 从库数据源
-            slave:
-                # 从数据源开关/默认关闭
-                enabled: false
-                url: 
-                username: 
-                password: 
-            # 初始连接数
-            initialSize: 5
-            # 最小连接池数量
-            minIdle: 10
-            # 最大连接池数量
-            maxActive: 20
-            # 配置获取连接等待超时的时间
-            maxWait: 60000
-            # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-            timeBetweenEvictionRunsMillis: 60000
-            # 配置一个连接在池中最小生存的时间，单位是毫秒
-            minEvictableIdleTimeMillis: 300000
-            # 配置一个连接在池中最大生存的时间，单位是毫秒
-            maxEvictableIdleTimeMillis: 900000
-            # 配置检测连接是否有效
-            validationQuery: SELECT 1 FROM DUAL
-            testWhileIdle: true
-            testOnBorrow: false
-            testOnReturn: false
-            webStatFilter: 
-                enabled: true
-            statViewServlet:
-                enabled: true
-                # 设置白名单，不填则允许所有访问
-                allow:
-                url-pattern: /druid/*
-                # 控制台管理用户名和密码
-                login-username: 
-                login-password: 
-            filter:
-                stat:
-                    enabled: true
-                    # 慢SQL记录
-                    log-slow-sql: true
-                    slow-sql-millis: 1000
-                    merge-sql: true
-                wall:
-                    config:
-                        multi-statement-allow: true
+        url: jdbc:mysql://localhost:3306/ry-vue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password: root
+        initialSize: 5      #初始化大小
+        maxActive: 10       #最大值
+        maxWait: 200      #最大等待时间，配置获取连接等待超时，时间单位都是毫秒ms
+        timeBetweenEvictionRunsMillis: 60000    #配置间隔多久才进行一次检测，检测需要关闭的空闲连接
+        filters: stat,wall,logback
+      ds1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/ry-vue2?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password: root
+        initialSize: 5      #初始化大小
+        maxActive: 10       #最大值
+        maxWait: 200      #最大等待时间，配置获取连接等待超时，时间单位都是毫秒ms
+        timeBetweenEvictionRunsMillis: 60000    #配置间隔多久才进行一次检测，检测需要关闭的空闲连接
+        filters: stat,wall,logback
+    # 配置分片规则
+    sharding:
+      # 按表来区分
+      tables:
+        sys_notice:
+          # 配置数据节点
+          actualDataNodes: ds${0..1}.sys_notice${0..1}
+          # 分库策略
+          databaseStrategy:
+            inline:
+              # 分库的规则 用notice_id这个字段来分库 总共有两个库 及ds0（sys_notice0）与ds1（sys_notice1）
+              shardingColumn: notice_id
+              algorithmExpression: ds${notice_id % 2}
+          # 分表策略
+          tableStrategy:
+            inline:
+              shardingColumn: notice_type
+              algorithmExpression: sys_notice${Long.parseLong(notice_type) % 2}
+          keyGenerator:
+            column: notice_id
+            type: SNOWFLAKE
+            props:
+              worker:
+                id: 123 
+      #配置绑定表和广播表 
+      #绑定表——联表查询防止出现笛卡尔积现象  指需要分片规则一致的表      
+      bindingTables: 
+        sys_notice
+      #有一些表是没有分片的必要的，这种表在每一个节点上都是一样的，这种表叫做广播表
+      broadcastTables: 
+        t_config
+      defaultDataSourceName: ds0
+    props:
+      sql:
+        show: true                        
