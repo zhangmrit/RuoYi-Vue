@@ -8,6 +8,7 @@
 * 支持加载动态权限菜单，多方式轻松权限控制。
 * 高效率开发，使用代码生成器可以一键生成前后端代码。
 * 在原有基础上添加了 lombok mybatis-plus hutool guava
+* 代码生成添加了markdown api文档
 
 ## 内置功能
 
