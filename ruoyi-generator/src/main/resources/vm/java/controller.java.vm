@@ -1,5 +1,6 @@
 package ${packageName}.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @date ${datetime}
  */
 @RestController
-@RequestMapping("/${moduleName}/${businessName}")
+@RequestMapping("/${baseUrl}")
 public class ${ClassName}Controller extends BaseController
 {
     @Autowired
@@ -45,13 +46,13 @@ public class ${ClassName}Controller extends BaseController
     public TableDataInfo list(${ClassName} ${className})
     {
         startPage();
-        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+        List<${ClassName}> list = ${className}Service.queryList(${className});
         return getDataTable(list);
     }
 #elseif($table.tree)
     public AjaxResult list(${ClassName} ${className})
     {
-        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+        List<${ClassName}> list = ${className}Service.queryList(${className});
         return AjaxResult.success(list);
     }
 #end
@@ -64,19 +65,19 @@ public class ${ClassName}Controller extends BaseController
     @GetMapping("/export")
     public AjaxResult export(${ClassName} ${className})
     {
-        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+        List<${ClassName}> list = ${className}Service.queryList(${className});
         ExcelUtil<${ClassName}> util = new ExcelUtil<${ClassName}>(${ClassName}.class);
         return util.exportExcel(list, "${businessName}");
     }
 
     /**
-     * 获取${functionName}详细信息
+     * 获取${functionName}详情
      */
     @PreAuthorize("@ss.hasPermi('${permissionPrefix}:query')")
     @GetMapping(value = "/{${pkColumn.javaField}}")
     public AjaxResult getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField})
     {
-        return AjaxResult.success(${className}Service.select${ClassName}ById(${pkColumn.javaField}));
+        return AjaxResult.success(${className}Service.getById(${pkColumn.javaField}));
     }
 
     /**
@@ -87,7 +88,7 @@ public class ${ClassName}Controller extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody ${ClassName} ${className})
     {
-        return toAjax(${className}Service.insert${ClassName}(${className}));
+        return toAjax(${className}Service.save(${className}));
     }
 
     /**
@@ -98,7 +99,7 @@ public class ${ClassName}Controller extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody ${ClassName} ${className})
     {
-        return toAjax(${className}Service.update${ClassName}(${className}));
+        return toAjax(${className}Service.updateById(${className}));
     }
 
     /**
@@ -109,6 +110,6 @@ public class ${ClassName}Controller extends BaseController
 	@DeleteMapping("/{${pkColumn.javaField}s}")
     public AjaxResult remove(@PathVariable ${pkColumn.javaType}[] ${pkColumn.javaField}s)
     {
-        return toAjax(${className}Service.delete${ClassName}ByIds(${pkColumn.javaField}s));
+        return toAjax(${className}Service.removeByIds(Arrays.asList(${pkColumn.javaField}s)));
     }
 }

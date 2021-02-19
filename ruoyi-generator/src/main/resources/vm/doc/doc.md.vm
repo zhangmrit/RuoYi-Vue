@@ -1,0 +1,172 @@
+#set($mark ="#")
+[TOC]
+$mark$mark$mark 查询${functionName}列表
+
+**请求URL：** 
+- ` /${baseUrl}/list `
+  
+**请求方式：**
+- GET 
+
+**参数：** 
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+#foreach ($column in $columns)
+#if(!$column.pk)
+#if(!$column.superColumn)
+|$column.javaField | 否|$column.javaType |$column.columnComment   |
+#end
+#end
+#en
+|pageNum | 否 |int |页码 |
+|pageSize | 否 |int |行数  |
+
+ **返回示例**
+``` 
+  {
+    "code": 0,
+    "msg": "success",
+    "rows": []
+  }
+```
+ **返回参数说明** 
+
+|参数名|类型|说明|
+|:-----  |:-----|-----                           |
+#foreach ($column in $columns)
+|$column.javaField  |$column.javaType |$column.columnComment   |
+#end
+
+ **备注** 
+
+- 更多返回错误代码请看首页的错误代码描述
+
+---
+
+$mark$mark$mark 查询${functionName}详情
+
+**请求URL：** 
+- ` /${baseUrl}/{${pkColumn.javaField}} `
+  
+**请求方式：**
+- GET 
+
+**参数：** 
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|${pkColumn.javaField} |是  |${pkColumn.javaType} |${pkColumn.columnName}   |
+
+ **返回示例**
+``` 
+  {
+    "code": 0,
+    "msg": "success",
+    "data": {}
+  }
+```
+ **返回参数说明** 
+
+|参数名|类型|说明|
+|:-----  |:-----|-----                           |
+#foreach ($column in $columns)
+|$column.javaField  |$column.javaType |$column.columnComment   |
+#end
+
+ **备注** 
+
+- 更多返回错误代码请看首页的错误代码描述
+
+---
+$mark$mark$mark 新增${functionName}
+
+**请求URL：** 
+- ` /${baseUrl} `
+  
+**请求方式：**
+- POST 
+
+**参数：** 
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+#foreach ($column in $columns)
+#if(!$column.pk)
+#if(!$column.superColumn)
+|$column.javaField |#if($column.required) 是 #else 否 #end|$column.javaType |$column.columnComment   |
+#end
+#end
+#end
+
+ **返回示例**
+``` 
+  {
+    "code": 0,
+    "msg": "success"
+  }
+```
+
+ **备注** 
+
+- 更多返回错误代码请看首页的错误代码描述
+
+---
+
+$mark$mark$mark 修改${functionName}
+
+**请求URL：** 
+- ` /${baseUrl} `
+  
+**请求方式：**
+- PUT 
+
+**参数：** 
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+#foreach ($column in $columns)
+#if(!$column.superColumn)
+|$column.javaField |#if($column.pk) 是 #else 否 #end  |$column.javaType |$column.columnComment   |
+#end
+#end
+
+ **返回示例**
+``` 
+  {
+    "code": 0,
+    "msg": "success"
+  }
+```
+
+ **备注** 
+
+- 更多返回错误代码请看首页的错误代码描述
+
+---
+
+$mark$mark$mark 删除${functionName}
+
+**请求URL：** 
+- ` /${baseUrl}/{${pkColumn.javaField}s} `
+  
+**请求方式：**
+- DELETE 
+
+**参数：** 
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|${pkColumn.javaField}s |是  |${pkColumn.javaType} |${pkColumn.columnName} 英文逗号间隔   |
+
+ **返回示例**
+``` 
+  {
+    "code": 0,
+    "msg": "success"
+  }
+```
+
+ **备注** 
+
+- 更多返回错误代码请看首页的错误代码描述
