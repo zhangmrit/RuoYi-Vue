@@ -83,6 +83,17 @@ public class BaseController
     {
         return rows > 0 ? AjaxResult.success() : AjaxResult.error();
     }
+    
+    /**
+     * 响应返回结果
+     * 
+     * @param rows 影响行数
+     * @return 操作结果
+     */
+    protected AjaxResult toAjax(boolean flag)
+    {
+        return flag ? AjaxResult.success() : AjaxResult.error();
+    }
 
     /**
      * 页面跳转
