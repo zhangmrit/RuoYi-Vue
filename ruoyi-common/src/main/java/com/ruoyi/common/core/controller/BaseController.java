@@ -87,7 +87,7 @@ public class BaseController
     /**
      * 响应返回结果
      * 
-     * @param rows 影响行数
+     * @param flag 操作结果
      * @return 操作结果
      */
     protected AjaxResult toAjax(boolean flag)
