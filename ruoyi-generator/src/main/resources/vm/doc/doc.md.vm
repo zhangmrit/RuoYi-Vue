@@ -18,7 +18,7 @@ $mark$mark$mark 查询${functionName}列表
 |$column.javaField | 否|$column.javaType |$column.columnComment   |
 #end
 #end
-#en
+#end
 |pageNum | 否 |int |页码 |
 |pageSize | 否 |int |行数  |
 
