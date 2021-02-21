@@ -5,6 +5,7 @@ import ${import};
 #end
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.ruoyi.common.annotation.Excel;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -34,6 +35,9 @@ public class ${ClassName} implements Serializable
 
 #foreach ($column in $columns)
     /** $column.columnComment */
+#if($column.pk)
+    @TableId
+#end
 #if($column.list)
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
 #if($parentheseIndex != -1)
