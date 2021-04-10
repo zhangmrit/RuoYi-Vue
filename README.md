@@ -1,6 +1,6 @@
 ## 平台简介
 
-若依是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
+[若依](https://gitee.com/y_project/RuoYi-Vue) 是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
 
 * 前端采用Vue、Element UI。
 * 后端采用Spring Boot、Spring Security、Redis & Jwt。
@@ -9,6 +9,9 @@
 * 高效率开发，使用代码生成器可以一键生成前后端代码。
 * 在原有基础上添加了 lombok mybatis-plus hutool guava
 * 代码生成添加了markdown api文档
+* nested 嵌套路由分支
+* shardingsphere shardingsphere分支
+
 
 ## 内置功能
 
