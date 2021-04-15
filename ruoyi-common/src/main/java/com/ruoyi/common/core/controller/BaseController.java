@@ -62,7 +62,7 @@ public class BaseController
     /**
      * 响应请求分页数据
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     protected TableDataInfo getDataTable(List<?> list)
     {
         TableDataInfo rspData = new TableDataInfo();
@@ -82,17 +82,6 @@ public class BaseController
     protected AjaxResult toAjax(int rows)
     {
         return rows > 0 ? AjaxResult.success() : AjaxResult.error();
-    }
-    
-    /**
-     * 响应返回结果
-     * 
-     * @param flag 操作结果
-     * @return 操作结果
-     */
-    protected AjaxResult toAjax(boolean flag)
-    {
-        return flag ? AjaxResult.success() : AjaxResult.error();
     }
 
     /**
