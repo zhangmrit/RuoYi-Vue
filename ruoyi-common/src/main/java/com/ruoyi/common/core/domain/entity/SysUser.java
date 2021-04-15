@@ -26,75 +26,76 @@ public class SysUser extends BaseEntity
 
     /** 用户ID */
     @Excel(name = "用户序号", cellType = ColumnType.NUMERIC, prompt = "用户编号")
-    private Long userId;
+    private Long              userId;
 
     /** 部门ID */
     @Excel(name = "部门编号", type = Type.IMPORT)
-    private Long deptId;
+    private Long              deptId;
+
+    /** 租户编号 */
+    @Excel(name = "租户编号")
+    private String            tenantId;
 
     /** 用户账号 */
     @Excel(name = "登录名称")
-    private String userName;
+    private String            userName;
 
     /** 用户昵称 */
     @Excel(name = "用户名称")
-    private String nickName;
+    private String            nickName;
 
     /** 用户邮箱 */
     @Excel(name = "用户邮箱")
-    private String email;
+    private String            email;
 
     /** 手机号码 */
     @Excel(name = "手机号码")
-    private String phonenumber;
+    private String            phonenumber;
 
     /** 用户性别 */
     @Excel(name = "用户性别", readConverterExp = "0=男,1=女,2=未知")
-    private String sex;
+    private String            sex;
 
     /** 用户头像 */
-    private String avatar;
+    private String            avatar;
 
     /** 密码 */
-    private String password;
+    private String            password;
 
     /** 盐加密 */
-    private String salt;
+    private String            salt;
 
     /** 帐号状态（0正常 1停用） */
     @Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用")
-    private String status;
+    private String            status;
 
     /** 删除标志（0代表存在 2代表删除） */
-    private String delFlag;
+    private String            delFlag;
 
     /** 最后登录IP */
     @Excel(name = "最后登录IP", type = Type.EXPORT)
-    private String loginIp;
+    private String            loginIp;
 
     /** 最后登录时间 */
     @Excel(name = "最后登录时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss", type = Type.EXPORT)
-    private Date loginDate;
+    private Date              loginDate;
 
     /** 部门对象 */
-    @Excels({
-        @Excel(name = "部门名称", targetAttr = "deptName", type = Type.EXPORT),
-        @Excel(name = "部门负责人", targetAttr = "leader", type = Type.EXPORT)
-    })
-    private SysDept dept;
+    @Excels({@Excel(name = "部门名称", targetAttr = "deptName", type = Type.EXPORT),
+            @Excel(name = "部门负责人", targetAttr = "leader", type = Type.EXPORT)})
+    private SysDept           dept;
 
     /** 角色对象 */
-    private List<SysRole> roles;
+    private List<SysRole>     roles;
 
     /** 角色组 */
-    private Long[] roleIds;
+    private Long[]            roleIds;
 
     /** 岗位组 */
-    private Long[] postIds;
+    private Long[]            postIds;
 
     public SysUser()
     {
-
     }
 
     public SysUser(Long userId)
@@ -130,6 +131,16 @@ public class SysUser extends BaseEntity
     public void setDeptId(Long deptId)
     {
         this.deptId = deptId;
+    }
+
+    public String getTenantId()
+    {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId)
+    {
+        this.tenantId = tenantId;
     }
 
     @Size(min = 0, max = 30, message = "用户昵称长度不能超过30个字符")
@@ -198,7 +209,7 @@ public class SysUser extends BaseEntity
         this.avatar = avatar;
     }
 
-	@JsonIgnore
+    @JsonIgnore
     @JsonProperty
     public String getPassword()
     {
@@ -301,28 +312,16 @@ public class SysUser extends BaseEntity
     }
 
     @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("userId", getUserId())
-            .append("deptId", getDeptId())
-            .append("userName", getUserName())
-            .append("nickName", getNickName())
-            .append("email", getEmail())
-            .append("phonenumber", getPhonenumber())
-            .append("sex", getSex())
-            .append("avatar", getAvatar())
-            .append("password", getPassword())
-            .append("salt", getSalt())
-            .append("status", getStatus())
-            .append("delFlag", getDelFlag())
-            .append("loginIp", getLoginIp())
-            .append("loginDate", getLoginDate())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("remark", getRemark())
-            .append("dept", getDept())
-            .toString();
+    public String toString()
+    {
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("userId", getUserId())
+                .append("deptId", getDeptId()).append("userName", getUserName()).append("nickName", getNickName())
+                .append("email", getEmail()).append("phonenumber", getPhonenumber()).append("sex", getSex())
+                .append("avatar", getAvatar()).append("password", getPassword()).append("salt", getSalt())
+                .append("status", getStatus()).append("delFlag", getDelFlag()).append("loginIp", getLoginIp())
+                .append("loginDate", getLoginDate()).append("createBy", getCreateBy())
+                .append("createTime", getCreateTime()).append("updateBy", getUpdateBy())
+                .append("updateTime", getUpdateTime()).append("remark", getRemark()).append("dept", getDept())
+                .toString();
     }
 }
