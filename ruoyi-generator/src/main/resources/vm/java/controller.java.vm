@@ -67,11 +67,11 @@ public class ${ClassName}Controller extends BaseController
     {
         List<${ClassName}> list = ${className}Service.queryList(${className});
         ExcelUtil<${ClassName}> util = new ExcelUtil<${ClassName}>(${ClassName}.class);
-        return util.exportExcel(list, "${businessName}");
+        return util.exportExcel(list, "${functionName}数据");
     }
 
     /**
-     * 获取${functionName}详情
+     * 获取${functionName}详细信息
      */
     @PreAuthorize("@ss.hasPermi('${permissionPrefix}:query')")
     @GetMapping(value = "/{${pkColumn.javaField}}")
