@@ -176,7 +176,7 @@
 </template>
 
 <script>
-import { listNotice, getNotice, delNotice, addNotice, updateNotice, exportNotice } from "@/api/system/notice";
+import { listNotice, getNotice, delNotice, addNotice, updateNotice } from "@/api/system/notice";
 import Editor from '@/components/Editor';
 
 export default {
@@ -336,7 +336,7 @@ export default {
         }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
-        })
+        }).catch(() => {});
     }
   }
 };

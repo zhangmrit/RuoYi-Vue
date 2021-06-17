@@ -75,6 +75,7 @@
           plain
           icon="el-icon-download"
           size="mini"
+          :loading="exportLoading"
           @click="handleExport"
           v-hasPermi="['monitor:job:export']"
         >导出</el-button>
@@ -274,6 +275,8 @@ export default {
     return {
       // 遮罩层
       loading: true,
+      // 导出遮罩层
+      exportLoading: false,
       // 选中数组
       ids: [],
       // 非单个禁用
@@ -407,7 +410,7 @@ export default {
           return runJob(row.jobId, row.jobGroup);
         }).then(() => {
           this.msgSuccess("执行成功");
-        })
+        }).catch(() => {});
     },
     /** 任务详细信息 */
     handleView(row) {
@@ -468,7 +471,7 @@ export default {
         }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
-        })
+        }).catch(() => {});
     },
     /** 导出按钮操作 */
     handleExport() {
@@ -477,11 +480,13 @@ export default {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
-        }).then(function() {
+        }).then(() => {
+          this.exportLoading = true;
           return exportJob(queryParams);
         }).then(response => {
           this.download(response.msg);
-        })
+          this.exportLoading = false;
+        }).catch(() => {});
     }
   }
 };

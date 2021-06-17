@@ -134,13 +134,12 @@ public class FileUploadUtils
     {
         File desc = new File(uploadDir + File.separator + fileName);
 
-        if (!desc.getParentFile().exists())
-        {
-            desc.getParentFile().mkdirs();
-        }
         if (!desc.exists())
         {
-            desc.createNewFile();
+            if (!desc.getParentFile().exists())
+            {
+                desc.getParentFile().mkdirs();
+            }
         }
         return desc;
     }
@@ -187,6 +186,11 @@ public class FileUploadUtils
             else if (allowedExtension == MimeTypeUtils.MEDIA_EXTENSION)
             {
                 throw new InvalidExtensionException.InvalidMediaExtensionException(allowedExtension, extension,
+                        fileName);
+            }
+            else if (allowedExtension == MimeTypeUtils.VIDEO_EXTENSION)
+            {
+                throw new InvalidExtensionException.InvalidVideoExtensionException(allowedExtension, extension,
                         fileName);
             }
             else

@@ -88,6 +88,7 @@
           plain
           icon="el-icon-download"
           size="mini"
+          :loading="exportLoading"
           @click="handleExport"
           v-hasPermi="['system:config:export']"
         >导出</el-button>
@@ -98,9 +99,9 @@
           plain
           icon="el-icon-refresh"
           size="mini"
-          @click="handleClearCache"
+          @click="handleRefreshCache"
           v-hasPermi="['system:config:remove']"
-        >清理缓存</el-button>
+        >刷新缓存</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -180,7 +181,7 @@
 </template>
 
 <script>
-import { listConfig, getConfig, delConfig, addConfig, updateConfig, exportConfig, clearCache } from "@/api/system/config";
+import { listConfig, getConfig, delConfig, addConfig, updateConfig, exportConfig, refreshCache } from "@/api/system/config";
 
 export default {
   name: "Config",
@@ -188,6 +189,8 @@ export default {
     return {
       // 遮罩层
       loading: true,
+      // 导出遮罩层
+      exportLoading: false,
       // 选中数组
       ids: [],
       // 非单个禁用
@@ -335,7 +338,7 @@ export default {
         }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
-        })
+        }).catch(() => {});
     },
     /** 导出按钮操作 */
     handleExport() {
@@ -344,16 +347,18 @@ export default {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
-        }).then(function() {
+        }).then(() => {
+          this.exportLoading = true;
           return exportConfig(queryParams);
         }).then(response => {
           this.download(response.msg);
-        })
+          this.exportLoading = false;
+        }).catch(() => {});
     },
-    /** 清理缓存按钮操作 */
-    handleClearCache() {
-      clearCache().then(response => {
-        this.msgSuccess("清理成功");
+    /** 刷新缓存按钮操作 */
+    handleRefreshCache() {
+      refreshCache().then(() => {
+        this.msgSuccess("刷新成功");
       });
     }
   }
