@@ -33,8 +33,8 @@ server:
 # 日志配置
 logging:
   file: 
-    # 日志路径 示例（ Windows配置D:/ruoyi/logs，Linux配置 /home/ruoyi/logs）
-    path: D:/ruoyi/logs
+    # 日志路径 示例（ Windows配置D:/ruoyi/logs，Linux配置 /home/ruoyi/logs,不填同级目录logs）
+    path: logs
   level:
     com.ruoyi: debug
     org.springframework: warn
