@@ -1,17 +1,13 @@
-######################################################################
 # Build Tools
-.DS_Store
 .gradle
-/build/
-!gradle/wrapper/gradle-wrapper.jar
-
+build
 target/
-!.mvn/wrapper/maven-wrapper.jar
+*.zip
+*.rar
 
-######################################################################
 # IDE
 
-### STS ###
+### STS,Eclipse ###
 .apt_generated
 .classpath
 .factorypath
@@ -26,19 +22,24 @@ target/
 *.ipr
 
 ### NetBeans ###
-nbproject/private/
-build/*
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-######################################################################
+### VS Code ###
+.vscode/
+
 # Others
+HELP.md
 *.log
 *.xml.versionsBackup
 *.swp
+.mvn
 
-!*/build/*.java
-!*/build/*.html
-!*/build/*.xml
+#MAC
+.DS_Store
