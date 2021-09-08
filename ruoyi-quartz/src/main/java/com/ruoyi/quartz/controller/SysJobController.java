@@ -19,7 +19,6 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.exception.job.TaskException;
-import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.quartz.domain.SysJob;
@@ -89,11 +88,15 @@ public class SysJobController extends BaseController
         {
             return error("新增任务'" + job.getJobName() + "'失败，目标字符串不允许'rmi://'调用");
         }
+        else if (StringUtils.containsIgnoreCase(job.getInvokeTarget(), Constants.LOOKUP_LDAP))
+        {
+            return error("新增任务'" + job.getJobName() + "'失败，目标字符串不允许'ldap://'调用");
+        }
         else if (StringUtils.containsAnyIgnoreCase(job.getInvokeTarget(), new String[] { Constants.HTTP, Constants.HTTPS }))
         {
             return error("新增任务'" + job.getJobName() + "'失败，目标字符串不允许'http(s)//'调用");
         }
-        job.setCreateBy(SecurityUtils.getUsername());
+        job.setCreateBy(getUsername());
         return toAjax(jobService.insertJob(job));
     }
 
@@ -113,11 +116,15 @@ public class SysJobController extends BaseController
         {
             return error("修改任务'" + job.getJobName() + "'失败，目标字符串不允许'rmi://'调用");
         }
+        else if (StringUtils.containsIgnoreCase(job.getInvokeTarget(), Constants.LOOKUP_LDAP))
+        {
+            return error("修改任务'" + job.getJobName() + "'失败，目标字符串不允许'ldap://'调用");
+        }
         else if (StringUtils.containsAnyIgnoreCase(job.getInvokeTarget(), new String[] { Constants.HTTP, Constants.HTTPS }))
         {
             return error("修改任务'" + job.getJobName() + "'失败，目标字符串不允许'http(s)//'调用");
         }
-        job.setUpdateBy(SecurityUtils.getUsername());
+        job.setUpdateBy(getUsername());
         return toAjax(jobService.updateJob(job));
     }
 

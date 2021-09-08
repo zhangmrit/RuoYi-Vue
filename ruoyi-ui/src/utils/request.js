@@ -28,9 +28,11 @@ service.interceptors.request.use(config => {
       if (value !== null && typeof(value) !== "undefined") {
         if (typeof value === 'object') {
           for (const key of Object.keys(value)) {
-            let params = propName + '[' + key + ']';
-            var subPart = encodeURIComponent(params) + "=";
-            url += subPart + encodeURIComponent(value[key]) + "&";
+            if (value[key] !== null && typeof (value[key]) !== 'undefined') {
+              let params = propName + '[' + key + ']';
+              let subPart = encodeURIComponent(params) + '=';
+              url += subPart + encodeURIComponent(value[key]) + '&';
+            }
           }
         } else {
           url += part + encodeURIComponent(value) + "&";
@@ -64,7 +66,7 @@ service.interceptors.response.use(res => {
           location.href = '/index';
         })
       }).catch(() => {});
-      return Promise.reject()
+      return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
     } else if (code === 500) {
       Message({
         message: msg,
