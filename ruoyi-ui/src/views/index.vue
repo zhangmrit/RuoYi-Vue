@@ -6,10 +6,10 @@
           领取阿里云通用云产品1888优惠券
           <br />
           <el-link
-            href="https://www.aliyun.com/minisite/goods?userCode=brki8iof"
+            href="https://cn.aliyun.com/minisite/goods?userCode=p88vtdla"
             type="primary"
             target="_blank"
-            >https://www.aliyun.com/minisite/goods?userCode=brki8iof</el-link
+            >https://cn.aliyun.com/minisite/goods?userCode=p88vtdla</el-link
           >
           <br />
           领取腾讯云通用云产品2860优惠券
@@ -55,7 +55,7 @@
             size="mini"
             icon="el-icon-cloudy"
             plain
-            @click="goTarget('https://gitee.com/y_project/RuoYi-Vue')"
+            @click="goTarget('https://gitee.com/zhangmrit/RuoYi-Vue')"
             >访问码云</el-button
           >
           <el-button
@@ -188,7 +188,9 @@
             </el-collapse-item>
             <el-collapse-item title="v3.5.0 - 2021-05-25">
               <ol>
-                <li>新增菜单导航显示风格TopNav（false为左侧导航菜单，true为顶部导航菜单）</li>
+                <li>
+                  新增菜单导航显示风格TopNav（false为左侧导航菜单，true为顶部导航菜单）
+                </li>
                 <li>布局设置支持保存&重置配置</li>
                 <li>修复树表数据显示不全&加载慢问题</li>
                 <li>新增IE浏览器版本过低提示页面</li>
@@ -207,7 +209,9 @@
                 <li>升级druid到最新版本v1.2.6</li>
                 <li>升级mybatis到最新版3.5.6 阻止远程代码执行漏洞</li>
                 <li>升级oshi到最新版本v5.6.0</li>
-                <li>velocity剔除commons-collections版本，防止3.2.1版本的反序列化漏洞</li>
+                <li>
+                  velocity剔除commons-collections版本，防止3.2.1版本的反序列化漏洞
+                </li>
                 <li>数据监控页默认账户密码防止越权访问</li>
                 <li>修复firefox下表单构建拖拽会新打卡一个选项卡</li>
                 <li>修正后端导入表权限标识</li>
@@ -585,7 +589,7 @@
           </div>
           <div class="body">
             <img
-              src="https://oscimg.oschina.net/oscnet/up-d6695f82666e5018f715c41cb7ee60d3b73.png"
+              src="http://doc.rycloud.zmrit.com/images/donate.png"
               alt="donate"
               width="100%"
             />
