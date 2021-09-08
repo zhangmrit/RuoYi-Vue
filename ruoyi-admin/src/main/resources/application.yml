@@ -59,6 +59,10 @@ spring:
     restart:
       # 热部署开关
       enabled: true
+  # 彩色日志开关
+  output:
+    ansi:
+      enabled: ALWAYS
   # redis 配置
   redis:
     # 地址
