@@ -3,8 +3,6 @@
  * Copyright (c) 2019 ruoyi
  */
 
-const baseURL = process.env.VUE_APP_BASE_API
-
 // 日期格式化
 export function parseTime(time, pattern) {
 	if (arguments.length === 0 || !time) {
@@ -72,8 +70,8 @@ export function addDateRange(params, dateRange, propName) {
 export function selectDictLabel(datas, value) {
 	var actions = [];
 	Object.keys(datas).some((key) => {
-		if (datas[key].dictValue == ('' + value)) {
-			actions.push(datas[key].dictLabel);
+		if (datas[key].value == ('' + value)) {
+			actions.push(datas[key].label);
 			return true;
 		}
 	})
@@ -93,11 +91,6 @@ export function selectDictLabels(datas, value, separator) {
 		})
 	})
 	return actions.join('').substring(0, actions.join('').length - 1);
-}
-
-// 通用下载方法
-export function download(fileName) {
-	window.location.href = baseURL + "/common/download?fileName=" + encodeURI(fileName) + "&delete=" + true;
 }
 
 // 字符串格式化(%s )
@@ -121,6 +114,22 @@ export function praseStrEmpty(str) {
 	}
 	return str;
 }
+
+// 数据合并
+export function mergeRecursive(source, target) {
+    for (var p in target) {
+        try {
+            if (target[p].constructor == Object) {
+                source[p] = mergeRecursive(source[p], target[p]);
+            } else {
+                source[p] = target[p];
+            }
+        } catch(e) {
+            source[p] = target[p];
+        }
+    }
+    return source;
+};
 
 /**
  * 构造树型结构数据
