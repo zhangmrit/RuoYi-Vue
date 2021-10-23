@@ -3,6 +3,7 @@ package com.ruoyi.common.utils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.exception.ServiceException;
@@ -43,7 +44,7 @@ public class SecurityUtils
             throw new ServiceException("获取部门ID异常", HttpStatus.UNAUTHORIZED);
         }
     }
-    
+
     /**
      * 获取用户账户
      **/
@@ -71,7 +72,7 @@ public class SecurityUtils
         }
         catch (Exception e)
         {
-            throw new CustomException("获取租户编号异常", HttpStatus.UNAUTHORIZED);
+            throw new ServiceException("获取租户编号异常", HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -117,7 +118,8 @@ public class SecurityUtils
      * @param encodedPassword 加密后字符
      * @return 结果
      */
-    public static boolean matchesPassword(String rawPassword, String encodedPassword)
+    public static boolean matchesPassword(String rawPassword,
+            String encodedPassword)
     {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(rawPassword, encodedPassword);
