@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
@@ -44,13 +43,6 @@ public class MybatisPlusConfig
         // 阻断插件
         interceptor.addInnerInterceptor(blockAttackInnerInterceptor());
         return interceptor;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Bean
-    public ConfigurationCustomizer configurationCustomizer()
-    {
-        return configuration -> configuration.setUseDeprecatedExecutor(Boolean.FALSE);
     }
 
     @Bean
@@ -166,7 +158,8 @@ public class MybatisPlusConfig
             @Override
             public boolean ignoreTable(String tableName)
             {
-                return tenantProperties.getIgnores().stream().anyMatch((t) -> t.equalsIgnoreCase(tableName));
+                return tenantProperties.getIgnores().stream()
+                        .anyMatch((t) -> t.equalsIgnoreCase(tableName));
             }
         });
     }
