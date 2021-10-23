@@ -117,6 +117,21 @@ mybatis-plus:
 #    # 加载全局的配置文件
 #    configLocation: classpath:mybatis/mybatis-config.xml
 
+tenant:
+  column: tenant_id
+  ignores:
+    - sys_menu
+    - sys_dict_type
+    - sys_dict_data
+    - sys_config
+    - sys_job
+    - sys_job_log
+    - sys_notice
+    - sys_tenant
+    - sys_role
+    - sys_user_role
+    - sys_role_menu
+
 # PageHelper分页插件
 pagehelper: 
   helperDialect: mysql

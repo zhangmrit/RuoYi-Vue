@@ -137,7 +137,7 @@ public class Constants
     /**
      * 资源映射路径 前缀
      */
-    public static final String RESOURCE_PREFIX = "/profile";
+    public static final String  RESOURCE_PREFIX    = "/profile";
 
     /**
      * RMI 远程方法调用
@@ -148,4 +148,14 @@ public class Constants
      * LDAP 远程方法调用
      */
     public static final String LOOKUP_LDAP = "ldap://";
+    /**
+     * 租户编号参数名
+     */
+    public static final String  TENAN_ID           = "tenantId";
+
+    /**
+     * 租户信息头(应用)
+     */
+    public static final String  TENANT_HEADER      = "x-tenant-header";
+
 }

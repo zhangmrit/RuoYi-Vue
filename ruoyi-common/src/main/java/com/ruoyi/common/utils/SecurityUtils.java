@@ -60,6 +60,22 @@ public class SecurityUtils
     }
 
     /**
+     * 获取租户编号
+     * 在登陆状态可以调用
+     **/
+    public static String getTenantId()
+    {
+        try
+        {
+            return getLoginUser().getUser().getTenantId();
+        }
+        catch (Exception e)
+        {
+            throw new CustomException("获取租户编号异常", HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    /**
      * 获取用户
      **/
     public static LoginUser getLoginUser()
