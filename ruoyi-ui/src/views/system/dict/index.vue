@@ -30,10 +30,10 @@
           style="width: 240px"
         >
           <el-option
-            v-for="dict in statusOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
+            v-for="dict in dict.type.sys_normal_disable"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
           />
         </el-select>
       </el-form-item>
@@ -94,6 +94,7 @@
           plain
           icon="el-icon-download"
           size="mini"
+          :loading="exportLoading"
           @click="handleExport"
           v-hasPermi="['system:dict:export']"
         >导出</el-button>
@@ -104,9 +105,9 @@
           plain
           icon="el-icon-refresh"
           size="mini"
-          @click="handleClearCache"
+          @click="handleRefreshCache"
           v-hasPermi="['system:dict:remove']"
-        >清理缓存</el-button>
+        >刷新缓存</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -117,12 +118,16 @@
       <el-table-column label="字典名称" align="center" prop="dictName" :show-overflow-tooltip="true" />
       <el-table-column label="字典类型" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <router-link :to="'/dict/type/data/' + scope.row.dictId" class="link-type">
+          <router-link :to="'/system/dict-data/index/' + scope.row.dictId" class="link-type">
             <span>{{ scope.row.dictType }}</span>
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column label="状态" align="center" prop="status" :formatter="statusFormat" />
+      <el-table-column label="状态" align="center" prop="status">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
+        </template>
+      </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
@@ -169,10 +174,10 @@
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio
-              v-for="dict in statusOptions"
-              :key="dict.dictValue"
-              :label="dict.dictValue"
-            >{{dict.dictLabel}}</el-radio>
+              v-for="dict in dict.type.sys_normal_disable"
+              :key="dict.value"
+              :label="dict.value"
+            >{{dict.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
@@ -188,14 +193,17 @@
 </template>
 
 <script>
-import { listType, getType, delType, addType, updateType, exportType, clearCache } from "@/api/system/dict/type";
+import { listType, getType, delType, addType, updateType, exportType, refreshCache } from "@/api/system/dict/type";
 
 export default {
   name: "Dict",
+  dicts: ['sys_normal_disable'],
   data() {
     return {
       // 遮罩层
       loading: true,
+      // 导出遮罩层
+      exportLoading: false,
       // 选中数组
       ids: [],
       // 非单个禁用
@@ -212,8 +220,6 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
-      // 状态数据字典
-      statusOptions: [],
       // 日期范围
       dateRange: [],
       // 查询参数
@@ -239,9 +245,6 @@ export default {
   },
   created() {
     this.getList();
-    this.getDicts("sys_normal_disable").then(response => {
-      this.statusOptions = response.data;
-    });
   },
   methods: {
     /** 查询字典类型列表 */
@@ -253,10 +256,6 @@ export default {
           this.loading = false;
         }
       );
-    },
-    // 字典状态字典翻译
-    statusFormat(row, column) {
-      return this.selectDictLabel(this.statusOptions, row.status);
     },
     // 取消按钮
     cancel() {
@@ -313,13 +312,13 @@ export default {
         if (valid) {
           if (this.form.dictId != undefined) {
             updateType(this.form).then(response => {
-              this.msgSuccess("修改成功");
+              this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
             addType(this.form).then(response => {
-              this.msgSuccess("新增成功");
+              this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
             });
@@ -330,34 +329,28 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const dictIds = row.dictId || this.ids;
-      this.$confirm('是否确认删除字典编号为"' + dictIds + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delType(dictIds);
-        }).then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        })
+      this.$modal.confirm('是否确认删除字典编号为"' + dictIds + '"的数据项？').then(function() {
+        return delType(dictIds);
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("删除成功");
+      }).catch(() => {});
     },
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;
-      this.$confirm('是否确认导出所有类型数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return exportType(queryParams);
-        }).then(response => {
-          this.download(response.msg);
-        })
+      this.$modal.confirm('是否确认导出所有类型数据项？').then(() => {
+        this.exportLoading = true;
+        return exportType(queryParams);
+      }).then(response => {
+        this.$download.name(response.msg);
+        this.exportLoading = false;
+      }).catch(() => {});
     },
-    /** 清理缓存按钮操作 */
-    handleClearCache() {
-      clearCache().then(response => {
-        this.msgSuccess("清理成功");
+    /** 刷新缓存按钮操作 */
+    handleRefreshCache() {
+      refreshCache().then(() => {
+        this.$modal.msgSuccess("刷新成功");
       });
     }
   }
