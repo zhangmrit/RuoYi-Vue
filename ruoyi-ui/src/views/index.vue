@@ -15,18 +15,19 @@
           领取腾讯云通用云产品2860优惠券
           <br />
           <el-link
-            href="https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console"
+            href="https://curl.qcloud.com/FkrxqHd6"
             type="primary"
             target="_blank"
-            >https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console</el-link
+            >【腾讯云】爆款1核2G云服务器首年48元，还有iPad Pro、Bose耳机、京东卡等你来抽！
+             https://cloud.tencent.com/act/cps/redirect?redirect=1575&cps_key=88c9e1bd5cb797193035f8623e730a6c&from=console</el-link
           >
           <br />
           阿里云服务器折扣区
-          <el-link href="http://aly.ruoyi.vip" type="primary" target="_blank"
+          <el-link href="https://cn.aliyun.com/minisite/goods?userCode=p88vtdla" type="primary" target="_blank"
             >>☛☛点我进入☚☚</el-link
           >
           &nbsp;&nbsp;&nbsp; 腾讯云服务器秒杀区
-          <el-link href="http://txy.ruoyi.vip" type="primary" target="_blank"
+          <el-link href="https://curl.qcloud.com/FkrxqHd6" type="primary" target="_blank"
             >>☛☛点我进入☚☚</el-link
           ><br />
           <h4 class="text-danger">
