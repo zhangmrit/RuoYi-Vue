@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
@@ -35,16 +34,16 @@ public class MybatisPlusConfig
         interceptor.addInnerInterceptor(blockAttackInnerInterceptor());
         return interceptor;
     }
+    // @SuppressWarnings("deprecation")
+    // @Bean
+    // public ConfigurationCustomizer configurationCustomizer()
+    // {
+    // return configuration ->
+    // configuration.setUseDeprecatedExecutor(Boolean.FALSE);
+    // }
 
-    @SuppressWarnings("deprecation")
     @Bean
-    public ConfigurationCustomizer configurationCustomizer()
-    {
-        return configuration -> configuration.setUseDeprecatedExecutor(Boolean.FALSE);
-    }
-
-    @Bean
-    public MpSqlInjector easySqlInjector()
+    public MpSqlInjector mpSqlInjector()
     {
         return new MpSqlInjector();
     }
