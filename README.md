@@ -1,6 +1,6 @@
 ## 平台简介
 
-[若依](https://gitee.com/y_project/RuoYi-Vue) 是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
+[若依](https://gitee.com/zhangmrit/RuoYi-Vue) 是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
 
 * 前端采用Vue、Element UI。
 * 后端采用Spring Boot、Spring Security、Redis & Jwt。
@@ -11,7 +11,6 @@
 * 代码生成添加了markdown api文档
 * nested 嵌套路由分支
 * shardingsphere shardingsphere分支
-
 
 ## 内置功能
 

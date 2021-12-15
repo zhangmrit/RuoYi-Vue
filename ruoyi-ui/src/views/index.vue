@@ -6,28 +6,27 @@
           领取阿里云通用云产品1888优惠券
           <br />
           <el-link
-            href="https://cn.aliyun.com/minisite/goods?userCode=p88vtdla"
+            href="https://www.aliyun.com/minisite/goods?userCode=brki8iof"
             type="primary"
             target="_blank"
-            >https://cn.aliyun.com/minisite/goods?userCode=p88vtdla</el-link
+            >https://www.aliyun.com/minisite/goods?userCode=brki8iof</el-link
           >
           <br />
           领取腾讯云通用云产品2860优惠券
           <br />
           <el-link
-            href="https://curl.qcloud.com/FkrxqHd6"
+            href="https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console"
             type="primary"
             target="_blank"
-            >【腾讯云】爆款1核2G云服务器首年48元，还有iPad Pro、Bose耳机、京东卡等你来抽！
-             https://cloud.tencent.com/act/cps/redirect?redirect=1575&cps_key=88c9e1bd5cb797193035f8623e730a6c&from=console</el-link
+            >https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console</el-link
           >
           <br />
           阿里云服务器折扣区
-          <el-link href="https://cn.aliyun.com/minisite/goods?userCode=p88vtdla" type="primary" target="_blank"
+          <el-link href="http://aly.ruoyi.vip" type="primary" target="_blank"
             >>☛☛点我进入☚☚</el-link
           >
           &nbsp;&nbsp;&nbsp; 腾讯云服务器秒杀区
-          <el-link href="https://curl.qcloud.com/FkrxqHd6" type="primary" target="_blank"
+          <el-link href="http://txy.ruoyi.vip" type="primary" target="_blank"
             >>☛☛点我进入☚☚</el-link
           ><br />
           <h4 class="text-danger">
@@ -56,7 +55,7 @@
             size="mini"
             icon="el-icon-cloudy"
             plain
-            @click="goTarget('https://gitee.com/zhangmrit/RuoYi-Vue')"
+            @click="goTarget('https://gitee.com/y_project/RuoYi-Vue')"
             >访问码云</el-button
           >
           <el-button
@@ -148,6 +147,59 @@
             <span>更新日志</span>
           </div>
           <el-collapse accordion>
+            <el-collapse-item title="v3.8.0 - 2021-12-01">
+              <ol>
+                <li>新增配套并同步的Vue3前端版本</li>
+                <li>新增通用方法简化模态/缓存/下载/权限/页签使用</li>
+                <li>优化导出数据/使用通用下载方法</li>
+                <li>Excel注解支持自定义数据处理器</li>
+                <li>Excel注解支持导入导出标题信息</li>
+                <li>Excel导入支持@Excels注解</li>
+                <li>新增组件data-dict，简化数据字典使用</li>
+                <li>新增Jaxb依赖，防止jdk8以上出现的兼容错误</li>
+                <li>生产环境使用路由懒加载提升页面响应速度</li>
+                <li>修复五级以上菜单出现的404问题</li>
+                <li>防重提交注解支持配置间隔时间/提示消息</li>
+                <li>日志注解新增是否保存响应参数</li>
+                <li>任务屏蔽违规字符&参数忽略双引号中的逗号</li>
+                <li>升级SpringBoot到最新版本2.5.6</li>
+                <li>升级pagehelper到最新版1.4.0</li>
+                <li>升级spring-boot-mybatis到最新版2.2.0</li>
+                <li>升级oshi到最新版本v5.8.2</li>
+                <li>升级druid到最新版1.2.8</li>
+                <li>升级velocity到最新版本2.3</li>
+                <li>升级fastjson到最新版1.2.78</li>
+                <li>升级axios到最新版本0.24.0</li>
+                <li>升级dart-sass到版本1.32.13</li>
+                <li>升级core-js到最新版本3.19.1</li>
+                <li>升级jsencrypt到最新版本3.2.1</li>
+                <li>升级js-cookie到最新版本3.0.1</li>
+                <li>升级file-saver到最新版本2.0.5</li>
+                <li>升级sass-loader到最新版本10.1.1</li>
+                <li>升级element-ui到最新版本2.15.6</li>
+                <li>新增sendGet无参请求方法</li>
+                <li>禁用el-tag组件的渐变动画</li>
+                <li>代码生成点击预览重置激活tab</li>
+                <li>AjaxResult重写put方法，以方便链式调用</li>
+                <li>优化登录/验证码请求headers不设置token</li>
+                <li>优化用户个人信息接口防止修改用户名</li>
+                <li>优化Cron表达式生成器关闭时销毁避免缓存</li>
+                <li>优化注册成功提示消息类型success</li>
+                <li>优化aop语法，使用spring自动注入注解</li>
+                <li>优化记录登录信息，移除不必要的修改</li>
+                <li>优化mybatis全局默认的执行器</li>
+                <li>优化Excel导入图片可能出现的异常</li>
+                <li>修复代码生成模板主子表删除缺少事务</li>
+                <li>修复日志记录可能出现的转换异常</li>
+                <li>修复代码生成复选框字典遗漏问题</li>
+                <li>修复关闭xss功能导致可重复读RepeatableFilter失效</li>
+                <li>修复字符串无法被反转义问题</li>
+                <li>修复后端主子表代码模板方法名生成错误问题</li>
+                <li>修复xss过滤后格式出现的异常</li>
+                <li>修复swagger没有指定dataTypeClass导致启动出现warn日志</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
             <el-collapse-item title="v3.7.0 - 2021-09-13">
               <ol>
                 <li>参数管理支持配置验证码开关</li>
@@ -248,9 +300,7 @@
             </el-collapse-item>
             <el-collapse-item title="v3.5.0 - 2021-05-25">
               <ol>
-                <li>
-                  新增菜单导航显示风格TopNav（false为左侧导航菜单，true为顶部导航菜单）
-                </li>
+                <li>新增菜单导航显示风格TopNav（false为左侧导航菜单，true为顶部导航菜单）</li>
                 <li>布局设置支持保存&重置配置</li>
                 <li>修复树表数据显示不全&加载慢问题</li>
                 <li>新增IE浏览器版本过低提示页面</li>
@@ -269,9 +319,7 @@
                 <li>升级druid到最新版本v1.2.6</li>
                 <li>升级mybatis到最新版3.5.6 阻止远程代码执行漏洞</li>
                 <li>升级oshi到最新版本v5.6.0</li>
-                <li>
-                  velocity剔除commons-collections版本，防止3.2.1版本的反序列化漏洞
-                </li>
+                <li>velocity剔除commons-collections版本，防止3.2.1版本的反序列化漏洞</li>
                 <li>数据监控页默认账户密码防止越权访问</li>
                 <li>修复firefox下表单构建拖拽会新打卡一个选项卡</li>
                 <li>修正后端导入表权限标识</li>
@@ -649,7 +697,7 @@
           </div>
           <div class="body">
             <img
-              src="http://doc.rycloud.zmrit.com/images/donate.png"
+              src="https://oscimg.oschina.net/oscnet/up-d6695f82666e5018f715c41cb7ee60d3b73.png"
               alt="donate"
               width="100%"
             />
@@ -669,7 +717,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "3.7.0",
+      version: "3.8.0",
     };
   },
   methods: {
