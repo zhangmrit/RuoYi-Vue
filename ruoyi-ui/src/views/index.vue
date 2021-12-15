@@ -6,10 +6,10 @@
           领取阿里云通用云产品1888优惠券
           <br />
           <el-link
-            href="https://www.aliyun.com/minisite/goods?userCode=brki8iof"
+            href="https://www.aliyun.com/minisite/goods?userCode=p88vtdla"
             type="primary"
             target="_blank"
-            >https://www.aliyun.com/minisite/goods?userCode=brki8iof</el-link
+            >https://www.aliyun.com/minisite/goods?userCode=p88vtdla</el-link
           >
           <br />
           领取腾讯云通用云产品2860优惠券
@@ -22,7 +22,7 @@
           >
           <br />
           阿里云服务器折扣区
-          <el-link href="http://aly.ruoyi.vip" type="primary" target="_blank"
+          <el-link href="https://www.aliyun.com/minisite/goods?userCode=p88vtdla" type="primary" target="_blank"
             >>☛☛点我进入☚☚</el-link
           >
           &nbsp;&nbsp;&nbsp; 腾讯云服务器秒杀区
