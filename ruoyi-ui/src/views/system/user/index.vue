@@ -495,7 +495,7 @@ export default {
     // 节点单击事件
     handleNodeClick(data) {
       this.queryParams.deptId = data.id;
-      this.getList();
+      this.handleQuery();
     },
     // 用户状态修改
     handleStatusChange(row) {
@@ -663,7 +663,7 @@ export default {
       this.upload.open = false;
       this.upload.isUploading = false;
       this.$refs.upload.clearFiles();
-      this.$alert(response.msg, "导入结果", { dangerouslyUseHTMLString: true });
+      this.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "导入结果", { dangerouslyUseHTMLString: true });
       this.getList();
     },
     // 提交上传文件

@@ -1,6 +1,6 @@
 {
   "name": "ruoyi",
-  "version": "3.8.0",
+  "version": "3.8.1",
   "description": "若依管理系统",
   "author": "若依",
   "license": "MIT",
@@ -65,7 +65,9 @@
     "@vue/cli-plugin-eslint": "4.4.6",
     "@vue/cli-service": "4.4.6",
     "babel-eslint": "10.1.0",
+    "babel-plugin-dynamic-import-node": "2.3.3",
     "chalk": "4.1.0",
+    "compression-webpack-plugin": "5.0.2",
     "connect": "3.6.6",
     "eslint": "7.15.0",
     "eslint-plugin-vue": "7.2.0",

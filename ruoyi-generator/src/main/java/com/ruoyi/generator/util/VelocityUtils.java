@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import java.util.Set;
 import org.apache.velocity.VelocityContext;
 
 import com.alibaba.fastjson.JSONObject;
@@ -273,14 +274,14 @@ public class VelocityUtils
 
     /**
      * 根据列类型获取字典组
-     *
+     * 
      * @param genTable 业务表对象
      * @return 返回字典组
      */
     public static String getDicts(GenTable genTable)
     {
         List<GenTableColumn> columns = genTable.getColumns();
-        List<String> dicts = new ArrayList<String>();
+        Set<String> dicts = new HashSet<String>();
         for (GenTableColumn column : columns)
         {
             if (!column.isSuperColumn() && StringUtils.isNotEmpty(column.getDictType()) && StringUtils.equalsAny(
