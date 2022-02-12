@@ -88,7 +88,6 @@ public class ExcelUtil<T>
 
     public static final String[] FORMULA_STR = { "=", "-", "+", "@" };
 
-
     /**
      * Excel sheet最大行数，默认65536
      */
@@ -1122,7 +1121,7 @@ public class ExcelUtil<T>
         if (StringUtils.isNotEmpty(excel.targetAttr()))
         {
             String target = excel.targetAttr();
-            if (target.indexOf(".") > -1)
+            if (target.contains("."))
             {
                 String[] targets = target.split("[.]");
                 for (String name : targets)
@@ -1217,7 +1216,7 @@ public class ExcelUtil<T>
         for (Object[] os : this.fields)
         {
             Excel excel = (Excel) os[1];
-            maxHeight = maxHeight > excel.height() ? maxHeight : excel.height();
+            maxHeight = Math.max(maxHeight, excel.height());
         }
         return (short) (maxHeight * 20);
     }
