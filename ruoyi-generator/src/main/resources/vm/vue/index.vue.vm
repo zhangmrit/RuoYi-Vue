@@ -589,7 +589,7 @@ export default {
 #end
     /** 导出按钮操作 */
     handleExport() {
-      this.download('${moduleName}/${businessName}/export', {
+      this.download('${baseUrl}/export', {
         ...this.queryParams
       }, `${businessName}_#[[${new Date().getTime()}]]#.xlsx`)
     }
