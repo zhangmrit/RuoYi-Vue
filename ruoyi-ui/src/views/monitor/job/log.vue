@@ -1,12 +1,11 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="任务名称" prop="jobName">
         <el-input
           v-model="queryParams.jobName"
           placeholder="请输入任务名称"
           clearable
-          size="small"
           style="width: 240px"
           @keyup.enter.native="handleQuery"
         />
@@ -14,9 +13,8 @@
       <el-form-item label="任务组名" prop="jobGroup">
         <el-select
           v-model="queryParams.jobGroup"
-          placeholder="请任务组名"
+          placeholder="请选择任务组名"
           clearable
-          size="small"
           style="width: 240px"
         >
           <el-option
@@ -32,7 +30,6 @@
           v-model="queryParams.status"
           placeholder="请选择执行状态"
           clearable
-          size="small"
           style="width: 240px"
         >
           <el-option
@@ -46,7 +43,6 @@
       <el-form-item label="执行时间">
         <el-date-picker
           v-model="dateRange"
-          size="small"
           style="width: 240px"
           value-format="yyyy-MM-dd"
           type="daterange"
@@ -89,7 +85,6 @@
           plain
           icon="el-icon-download"
           size="mini"
-          :loading="exportLoading"
           @click="handleExport"
           v-hasPermi="['monitor:job:export']"
         >导出</el-button>
@@ -186,7 +181,7 @@
 
 <script>
 import { getJob} from "@/api/monitor/job";
-import { listJobLog, delJobLog, exportJobLog, cleanJobLog } from "@/api/monitor/jobLog";
+import { listJobLog, delJobLog, cleanJobLog } from "@/api/monitor/jobLog";
 
 export default {
   name: "JobLog",
@@ -195,8 +190,6 @@ export default {
     return {
       // 遮罩层
       loading: true,
-      // 导出遮罩层
-      exportLoading: false,
       // 选中数组
       ids: [],
       // 非多个禁用
@@ -248,8 +241,8 @@ export default {
     },
     // 返回按钮
     handleClose() {
-      this.$store.dispatch("tagsView/delView", this.$route);
-      this.$router.push({ path: "/monitor/job" });
+      const obj = { path: "/monitor/job" };
+      this.$tab.closeOpenPage(obj);
     },
     /** 搜索按钮操作 */
     handleQuery() {
@@ -293,14 +286,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      const queryParams = this.queryParams;
-      this.$modal.confirm('是否确认导出所有调度日志数据项？').then(() => {
-        this.exportLoading = true;
-        return exportJobLog(queryParams);
-      }).then(response => {
-        this.$download.name(response.msg);
-        this.exportLoading = false;
-      }).catch(() => {});
+      this.download('/monitor/jobLog/export', {
+        ...this.queryParams
+      }, `log_${new Date().getTime()}.xlsx`)
     }
   }
 };

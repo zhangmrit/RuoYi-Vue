@@ -27,13 +27,12 @@
       </el-col>
       <!--用户数据-->
       <el-col :span="20" :xs="24">
-        <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+        <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
           <el-form-item label="用户名称" prop="userName">
             <el-input
               v-model="queryParams.userName"
               placeholder="请输入用户名称"
               clearable
-              size="small"
               style="width: 240px"
               @keyup.enter.native="handleQuery"
             />
@@ -43,7 +42,6 @@
               v-model="queryParams.phonenumber"
               placeholder="请输入手机号码"
               clearable
-              size="small"
               style="width: 240px"
               @keyup.enter.native="handleQuery"
             />
@@ -53,7 +51,6 @@
               v-model="queryParams.status"
               placeholder="用户状态"
               clearable
-              size="small"
               style="width: 240px"
             >
               <el-option
@@ -67,7 +64,6 @@
           <el-form-item label="创建时间">
             <el-date-picker
               v-model="dateRange"
-              size="small"
               style="width: 240px"
               value-format="yyyy-MM-dd"
               type="daterange"
@@ -131,7 +127,6 @@
               plain
               icon="el-icon-download"
               size="mini"
-              :loading="exportLoading"
               @click="handleExport"
               v-hasPermi="['system:user:export']"
             >导出</el-button>
@@ -207,7 +202,7 @@
       </el-col>
     </el-row>
 
-    <!-- 添加或修改参数配置对话框 -->
+    <!-- 添加或修改用户配置对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
@@ -249,7 +244,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="用户性别">
-              <el-select v-model="form.sex" placeholder="请选择">
+              <el-select v-model="form.sex" placeholder="请选择性别">
                 <el-option
                   v-for="dict in dict.type.sys_user_sex"
                   :key="dict.value"
@@ -274,7 +269,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="岗位">
-              <el-select v-model="form.postIds" multiple placeholder="请选择">
+              <el-select v-model="form.postIds" multiple placeholder="请选择岗位">
                 <el-option
                   v-for="item in postOptions"
                   :key="item.postId"
@@ -287,7 +282,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="角色">
-              <el-select v-model="form.roleIds" multiple placeholder="请选择">
+              <el-select v-model="form.roleIds" multiple placeholder="请选择角色">
                 <el-option
                   v-for="item in roleOptions"
                   :key="item.roleId"
@@ -346,7 +341,7 @@
 </template>
 
 <script>
-import { listUser, getUser, delUser, addUser, updateUser, exportUser, resetUserPwd, changeUserStatus, importTemplate } from "@/api/system/user";
+import { listUser, getUser, delUser, addUser, updateUser, resetUserPwd, changeUserStatus } from "@/api/system/user";
 import { getToken } from "@/utils/auth";
 import { treeselect } from "@/api/system/dept";
 import Treeselect from "@riophae/vue-treeselect";
@@ -360,8 +355,6 @@ export default {
     return {
       // 遮罩层
       loading: true,
-      // 导出遮罩层
-      exportLoading: false,
       // 选中数组
       ids: [],
       // 非单个禁用
@@ -446,7 +439,7 @@ export default {
         email: [
           {
             type: "email",
-            message: "'请输入正确的邮箱地址",
+            message: "请输入正确的邮箱地址",
             trigger: ["blur", "change"]
           }
         ],
@@ -498,7 +491,7 @@ export default {
     // 节点单击事件
     handleNodeClick(data) {
       this.queryParams.deptId = data.id;
-      this.getList();
+      this.handleQuery();
     },
     // 用户状态修改
     handleStatusChange(row) {
@@ -599,7 +592,7 @@ export default {
         cancelButtonText: "取消",
         closeOnClickModal: false,
         inputPattern: /^.{5,20}$/,
-        inputErrorMessage: "用户密码长度必须介于 5 和 20 之间",
+        inputErrorMessage: "用户密码长度必须介于 5 和 20 之间"
       }).then(({ value }) => {
           resetUserPwd(row.userId, value).then(response => {
             this.$modal.msgSuccess("修改成功，新密码是：" + value);
@@ -643,14 +636,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      const queryParams = this.queryParams;
-      this.$modal.confirm('是否确认导出所有用户数据项？').then(() => {
-        this.exportLoading = true;
-        return exportUser(queryParams);
-      }).then(response => {
-        this.$download.name(response.msg);
-        this.exportLoading = false;
-      }).catch(() => {});
+      this.download('system/user/export', {
+        ...this.queryParams
+      }, `user_${new Date().getTime()}.xlsx`)
     },
     /** 导入按钮操作 */
     handleImport() {
@@ -659,9 +647,8 @@ export default {
     },
     /** 下载模板操作 */
     importTemplate() {
-      importTemplate().then(response => {
-        this.$download.name(response.msg);
-      });
+      this.download('system/user/importTemplate', {
+      }, `user_template_${new Date().getTime()}.xlsx`)
     },
     // 文件上传中处理
     handleFileUploadProgress(event, file, fileList) {
@@ -672,7 +659,7 @@ export default {
       this.upload.open = false;
       this.upload.isUploading = false;
       this.$refs.upload.clearFiles();
-      this.$alert(response.msg, "导入结果", { dangerouslyUseHTMLString: true });
+      this.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "导入结果", { dangerouslyUseHTMLString: true });
       this.getList();
     },
     // 提交上传文件

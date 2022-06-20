@@ -9,9 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.ruoyi.common.annotation.Excel;
 import lombok.Data;
 import lombok.experimental.Accessors;
-#if($table.crud || $table.sub)
-
-#elseif($table.tree)
+#if($table.tree)
 import com.ruoyi.common.core.domain.TreeEntity;
 #end
 
@@ -60,19 +58,6 @@ public class ${ClassName} implements Serializable
 #if($table.sub)
     /** $table.subTable.functionName信息 */
     private List<${subClassName}> ${subclassName}List;
-
-#end
-
-#if($table.sub)
-    public List<${subClassName}> get${subClassName}List()
-    {
-        return ${subclassName}List;
-    }
-
-    public void set${subClassName}List(List<${subClassName}> ${subclassName}List)
-    {
-        this.${subclassName}List = ${subclassName}List;
-    }
 
 #end
 }

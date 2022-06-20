@@ -7,14 +7,13 @@ import java.nio.charset.StandardCharsets;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.hutool.core.util.IdUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
-
-import cn.hutool.core.util.IdUtil;
 
 /**
  * 文件处理工具类
@@ -90,8 +89,7 @@ public class FileUtils
         try
         {
             String extension = getFileExtendName(data);
-            pathName = DateUtils.datePath() + "/" + IdUtil.fastUUID() + "."
-                    + extension;
+            pathName = DateUtils.datePath() + "/" + IdUtil.fastSimpleUUID() + "." + extension;
             File file = FileUploadUtils.getAbsoluteFile(uploadDir, pathName);
             fos = new FileOutputStream(file);
             fos.write(data);
@@ -197,7 +195,6 @@ public class FileUtils
      *
      * @param response 响应对象
      * @param realFileName 真实文件名
-     * @return
      */
     public static void setAttachmentResponseHeader(HttpServletResponse response,
             String realFileName) throws UnsupportedEncodingException
@@ -205,13 +202,14 @@ public class FileUtils
         String percentEncodedFileName = percentEncode(realFileName);
         StringBuilder contentDispositionValue = new StringBuilder();
         contentDispositionValue.append("attachment; filename=")
-                .append(percentEncodedFileName).append(";").append("filename*=")
-                .append("utf-8''").append(percentEncodedFileName);
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Expose-Headers",
-                "Content-Disposition,download-filename");
-        response.setHeader("Content-disposition",
-                contentDispositionValue.toString());
+                .append(percentEncodedFileName)
+                .append(";")
+                .append("filename*=")
+                .append("utf-8''")
+                .append(percentEncodedFileName);
+
+        response.addHeader("Access-Control-Expose-Headers", "Content-Disposition,download-filename");
+        response.setHeader("Content-disposition", contentDispositionValue.toString());
         response.setHeader("download-filename", percentEncodedFileName);
     }
 
@@ -259,5 +257,23 @@ public class FileUtils
             strFileExtendName = "png";
         }
         return strFileExtendName;
+    }
+
+    /**
+     * 获取名称
+     *
+     * @param fileName 路径名称
+     * @return 没有文件路径的名称
+     */
+    public static String getName(String fileName)
+    {
+        if (fileName == null)
+        {
+            return null;
+        }
+        int lastUnixPos = fileName.lastIndexOf('/');
+        int lastWindowsPos = fileName.lastIndexOf('\\');
+        int index = Math.max(lastUnixPos, lastWindowsPos);
+        return fileName.substring(index + 1);
     }
 }

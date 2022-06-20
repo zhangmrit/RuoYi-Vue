@@ -1,13 +1,12 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="系统模块" prop="title">
         <el-input
           v-model="queryParams.title"
           placeholder="请输入系统模块"
           clearable
           style="width: 240px;"
-          size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
@@ -17,7 +16,6 @@
           placeholder="请输入操作人员"
           clearable
           style="width: 240px;"
-          size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
@@ -26,7 +24,6 @@
           v-model="queryParams.businessType"
           placeholder="操作类型"
           clearable
-          size="small"
           style="width: 240px"
         >
           <el-option
@@ -42,7 +39,6 @@
           v-model="queryParams.status"
           placeholder="操作状态"
           clearable
-          size="small"
           style="width: 240px"
         >
           <el-option
@@ -56,7 +52,6 @@
       <el-form-item label="操作时间">
         <el-date-picker
           v-model="dateRange"
-          size="small"
           style="width: 240px"
           value-format="yyyy-MM-dd"
           type="daterange"
@@ -99,7 +94,6 @@
           plain
           icon="el-icon-download"
           size="mini"
-          :loading="exportLoading"
           @click="handleExport"
           v-hasPermi="['monitor:operlog:export']"
         >导出</el-button>
@@ -196,7 +190,7 @@
 </template>
 
 <script>
-import { list, delOperlog, cleanOperlog, exportOperlog } from "@/api/monitor/operlog";
+import { list, delOperlog, cleanOperlog } from "@/api/monitor/operlog";
 
 export default {
   name: "Operlog",
@@ -205,8 +199,6 @@ export default {
     return {
       // 遮罩层
       loading: true,
-      // 导出遮罩层
-      exportLoading: false,
       // 选中数组
       ids: [],
       // 非多个禁用
@@ -303,14 +295,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      const queryParams = this.queryParams;
-      this.$modal.confirm('是否确认导出所有操作日志数据项？').then(() => {
-        this.exportLoading = true;
-        return exportOperlog(queryParams);
-      }).then(response => {
-        this.$download.name(response.msg);
-        this.exportLoading = false;
-      }).catch(() => {});
+      this.download('monitor/operlog/export', {
+        ...this.queryParams
+      }, `operlog_${new Date().getTime()}.xlsx`)
     }
   }
 };
