@@ -10,8 +10,8 @@ import com.baomidou.mybatisplus.extension.injector.methods.InsertBatchSomeColumn
 /**
  * 扩展默认的数据方法
  **/
-public class MpSqlInjector extends DefaultSqlInjector {
-
+public class MpSqlInjector extends DefaultSqlInjector
+{
     @Override
     public List<AbstractMethod> getMethodList(Class<?> mapperClass, TableInfo tableInfo) {
         List<AbstractMethod> methodList = super.getMethodList(mapperClass,tableInfo);

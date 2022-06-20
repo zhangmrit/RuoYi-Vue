@@ -6,6 +6,8 @@ const user = {
     token: getToken(),
     name: '',
     avatar: '',
+    tenantId: '',
+    userId: '',
     roles: [],
     permissions: []
   },
@@ -16,6 +18,12 @@ const user = {
     },
     SET_NAME: (state, name) => {
       state.name = name
+    },
+    SET_USERID: (state, userId) => {
+      state.userId = userId
+    },
+    SET_TENANTID: (state, tenantId) => {
+      state.tenantId = tenantId
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
@@ -35,12 +43,16 @@ const user = {
       const password = userInfo.password
       const code = userInfo.code
       const uuid = userInfo.uuid
+      const tenantId = userInfo.tenantId
+      console.log(tenantId);
+      commit('SET_TENANTID', tenantId)
       return new Promise((resolve, reject) => {
         login(username, password, code, uuid).then(res => {
           setToken(res.token)
           commit('SET_TOKEN', res.token)
           resolve()
         }).catch(error => {
+          // commit('SET_TENANTID', '')
           reject(error)
         })
       })
@@ -60,6 +72,8 @@ const user = {
           }
           commit('SET_NAME', user.userName)
           commit('SET_AVATAR', avatar)
+          commit('SET_TENANTID', user.tenantId)
+          commit('SET_USERID', user.userId)
           resolve(res)
         }).catch(error => {
           reject(error)
