@@ -1,22 +1,20 @@
 package com.ruoyi.common.utils.file;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
+
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.common.utils.uuid.IdUtils;
+
+import cn.hutool.core.util.IdUtil;
 
 /**
  * 文件处理工具类
@@ -34,7 +32,8 @@ public class FileUtils
      * @param os 输出流
      * @return
      */
-    public static void writeBytes(String filePath, OutputStream os) throws IOException
+    public static void writeBytes(String filePath, OutputStream os)
+            throws IOException
     {
         FileInputStream fis = null;
         try
@@ -83,14 +82,16 @@ public class FileUtils
      * @return 目标文件
      * @throws IOException IO异常
      */
-    public static String writeBytes(byte[] data, String uploadDir) throws IOException
+    public static String writeBytes(byte[] data, String uploadDir)
+            throws IOException
     {
         FileOutputStream fos = null;
         String pathName = "";
         try
         {
             String extension = getFileExtendName(data);
-            pathName = DateUtils.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
+            pathName = DateUtils.datePath() + "/" + IdUtil.fastUUID() + "."
+                    + extension;
             File file = FileUploadUtils.getAbsoluteFile(uploadDir, pathName);
             fos = new FileOutputStream(file);
             fos.write(data);
@@ -145,13 +146,12 @@ public class FileUtils
         {
             return false;
         }
-
         // 检查允许下载的文件规则
-        if (ArrayUtils.contains(MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION, FileTypeUtils.getFileType(resource)))
+        if (ArrayUtils.contains(MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION,
+                FileTypeUtils.getFileType(resource)))
         {
             return true;
         }
-
         // 不在允许下载的文件规则
         return false;
     }
@@ -163,7 +163,8 @@ public class FileUtils
      * @param fileName 文件名
      * @return 编码后的文件名
      */
-    public static String setFileDownloadHeader(HttpServletRequest request, String fileName) throws UnsupportedEncodingException
+    public static String setFileDownloadHeader(HttpServletRequest request,
+            String fileName) throws UnsupportedEncodingException
     {
         final String agent = request.getHeader("USER-AGENT");
         String filename = fileName;
@@ -198,21 +199,19 @@ public class FileUtils
      * @param realFileName 真实文件名
      * @return
      */
-    public static void setAttachmentResponseHeader(HttpServletResponse response, String realFileName) throws UnsupportedEncodingException
+    public static void setAttachmentResponseHeader(HttpServletResponse response,
+            String realFileName) throws UnsupportedEncodingException
     {
         String percentEncodedFileName = percentEncode(realFileName);
-
         StringBuilder contentDispositionValue = new StringBuilder();
         contentDispositionValue.append("attachment; filename=")
-                .append(percentEncodedFileName)
-                .append(";")
-                .append("filename*=")
-                .append("utf-8''")
-                .append(percentEncodedFileName);
-
+                .append(percentEncodedFileName).append(";").append("filename*=")
+                .append("utf-8''").append(percentEncodedFileName);
         response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Expose-Headers", "Content-Disposition,download-filename");
-        response.setHeader("Content-disposition", contentDispositionValue.toString());
+        response.addHeader("Access-Control-Expose-Headers",
+                "Content-Disposition,download-filename");
+        response.setHeader("Content-disposition",
+                contentDispositionValue.toString());
         response.setHeader("download-filename", percentEncodedFileName);
     }
 
@@ -222,7 +221,8 @@ public class FileUtils
      * @param s 需要百分号编码的字符串
      * @return 百分号编码后的字符串
      */
-    public static String percentEncode(String s) throws UnsupportedEncodingException
+    public static String percentEncode(String s)
+            throws UnsupportedEncodingException
     {
         String encode = URLEncoder.encode(s, StandardCharsets.UTF_8.toString());
         return encode.replaceAll("\\+", "%20");
@@ -237,12 +237,15 @@ public class FileUtils
     public static String getFileExtendName(byte[] photoByte)
     {
         String strFileExtendName = "jpg";
-        if ((photoByte[0] == 71) && (photoByte[1] == 73) && (photoByte[2] == 70) && (photoByte[3] == 56)
-                && ((photoByte[4] == 55) || (photoByte[4] == 57)) && (photoByte[5] == 97))
+        if ((photoByte[0] == 71) && (photoByte[1] == 73) && (photoByte[2] == 70)
+                && (photoByte[3] == 56)
+                && ((photoByte[4] == 55) || (photoByte[4] == 57))
+                && (photoByte[5] == 97))
         {
             strFileExtendName = "gif";
         }
-        else if ((photoByte[6] == 74) && (photoByte[7] == 70) && (photoByte[8] == 73) && (photoByte[9] == 70))
+        else if ((photoByte[6] == 74) && (photoByte[7] == 70)
+                && (photoByte[8] == 73) && (photoByte[9] == 70))
         {
             strFileExtendName = "jpg";
         }
@@ -250,7 +253,8 @@ public class FileUtils
         {
             strFileExtendName = "bmp";
         }
-        else if ((photoByte[1] == 80) && (photoByte[2] == 78) && (photoByte[3] == 71))
+        else if ((photoByte[1] == 80) && (photoByte[2] == 78)
+                && (photoByte[3] == 71))
         {
             strFileExtendName = "png";
         }
