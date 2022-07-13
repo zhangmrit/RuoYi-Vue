@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -36,7 +37,7 @@ public class SysDept extends BaseEntity
     private String            deptName;
 
     /** 显示顺序 */
-    private String            orderNum;
+    private Integer orderNum;
 
     /** 负责人 */
     private String            leader;
@@ -111,13 +112,13 @@ public class SysDept extends BaseEntity
         this.deptName = deptName;
     }
 
-    @NotBlank(message = "显示顺序不能为空")
-    public String getOrderNum()
+    @NotNull(message = "显示顺序不能为空")
+    public Integer getOrderNum()
     {
         return orderNum;
     }
 
-    public void setOrderNum(String orderNum)
+    public void setOrderNum(Integer orderNum)
     {
         this.orderNum = orderNum;
     }

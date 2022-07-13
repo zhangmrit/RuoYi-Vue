@@ -6,7 +6,7 @@
       :rules="loginRules"
       class="login-form"
     >
-      <h3 class="title">物管系统</h3>
+      <h3 class="title">若依管理系统</h3>
       <el-form-item prop="tenantId">
         <el-input
           v-model="loginForm.tenantId"
@@ -57,7 +57,7 @@
           />
         </el-input>
       </el-form-item>
-      <el-form-item prop="code" v-if="captchaOnOff">
+      <el-form-item prop="code" v-if="captchaEnabled">
         <el-input
           v-model="loginForm.code"
           auto-complete="off"
@@ -137,7 +137,7 @@ export default {
       },
       loading: false,
       // 验证码开关
-      captchaOnOff: true,
+      captchaEnabled: true,
       // 注册开关
       register: false,
       redirect: undefined,
@@ -157,10 +157,9 @@ export default {
   },
   methods: {
     getCode() {
-      getCodeImg().then((res) => {
-        this.captchaOnOff =
-          res.captchaOnOff === undefined ? true : res.captchaOnOff;
-        if (this.captchaOnOff) {
+      getCodeImg().then(res => {
+        this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled;
+        if (this.captchaEnabled) {
           this.codeUrl = "data:image/gif;base64," + res.img;
           this.loginForm.uuid = res.uuid;
         }
@@ -198,17 +197,14 @@ export default {
             Cookies.remove("password");
             Cookies.remove("rememberMe");
           }
-          this.$store
-            .dispatch("Login", this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || "/" }).catch(() => {});
-            })
-            .catch(() => {
-              this.loading = false;
-              if (this.captchaOnOff) {
-                this.getCode();
-              }
-            });
+          this.$store.dispatch("Login", this.loginForm).then(() => {
+            this.$router.push({ path: this.redirect || "/" }).catch(()=>{});
+          }).catch(() => {
+            this.loading = false;
+            if (this.captchaEnabled) {
+              this.getCode();
+            }
+          });
         }
       });
     },
