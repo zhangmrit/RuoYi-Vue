@@ -94,10 +94,10 @@ public class SysTenantServiceImpl implements ISysTenantService
         // 2.创建部门
         SysDept dept = new SysDept();
         dept.setTenantId(sysTenant.getTenantId());
-        dept.setParentId(0l);
+        dept.setParentId(0L);
         dept.setAncestors("0");
         dept.setDeptName(sysTenant.getTenantName());
-        dept.setOrderNum("0");
+        dept.setOrderNum(0);
         dept.setCreateBy("system");
         sysDeptService.insertDept(dept);
         // 3.创建用户
