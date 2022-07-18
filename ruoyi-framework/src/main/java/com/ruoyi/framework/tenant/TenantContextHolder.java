@@ -2,12 +2,9 @@ package com.ruoyi.framework.tenant;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * 租户holder
  */
-@Slf4j
 public class TenantContextHolder
 {
     /**
