@@ -28,13 +28,6 @@
           auto-complete="off"
           placeholder="账号"
         >
-          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
-        <el-input
-          v-model="loginForm.username"
-          type="text"
-          auto-complete="off"
-          placeholder="账号"
-        >
           <svg-icon
             slot="prefix"
             icon-class="user"
@@ -157,8 +150,9 @@ export default {
   },
   methods: {
     getCode() {
-      getCodeImg().then(res => {
-        this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled;
+      getCodeImg().then((res) => {
+        this.captchaEnabled =
+          res.captchaEnabled === undefined ? true : res.captchaEnabled;
         if (this.captchaEnabled) {
           this.codeUrl = "data:image/gif;base64," + res.img;
           this.loginForm.uuid = res.uuid;
@@ -197,14 +191,17 @@ export default {
             Cookies.remove("password");
             Cookies.remove("rememberMe");
           }
-          this.$store.dispatch("Login", this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || "/" }).catch(()=>{});
-          }).catch(() => {
-            this.loading = false;
-            if (this.captchaEnabled) {
-              this.getCode();
-            }
-          });
+          this.$store
+            .dispatch("Login", this.loginForm)
+            .then(() => {
+              this.$router.push({ path: this.redirect || "/" }).catch(() => {});
+            })
+            .catch(() => {
+              this.loading = false;
+              if (this.captchaEnabled) {
+                this.getCode();
+              }
+            });
         }
       });
     },
