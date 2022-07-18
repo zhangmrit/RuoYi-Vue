@@ -1,18 +1,14 @@
 package com.ruoyi.web.controller.system;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.controller.BaseController;
@@ -22,6 +18,7 @@ import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.web.service.SysPermissionService;
@@ -40,22 +37,23 @@ import com.ruoyi.system.service.ISysUserService;
 public class SysRoleController extends BaseController
 {
     @Autowired
-    private ISysRoleService roleService;
+    private ISysRoleService      roleService;
 
     @Autowired
-    private TokenService tokenService;
-    
+    private TokenService         tokenService;
+
     @Autowired
     private SysPermissionService permissionService;
-    
+
     @Autowired
-    private ISysUserService userService;
+    private ISysUserService      userService;
 
     @PreAuthorize("@ss.hasPermi('system:role:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysRole role)
     {
         startPage();
+        role.setTenantId(SecurityUtils.getTenantId());
         List<SysRole> list = roleService.selectRoleList(role);
         return getDataTable(list);
     }
@@ -89,17 +87,20 @@ public class SysRoleController extends BaseController
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysRole role)
     {
-        if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role)))
+        if (UserConstants.NOT_UNIQUE
+                .equals(roleService.checkRoleNameUnique(role)))
         {
-            return AjaxResult.error("新增角色'" + role.getRoleName() + "'失败，角色名称已存在");
+            return AjaxResult
+                    .error("新增角色'" + role.getRoleName() + "'失败，角色名称已存在");
         }
-        else if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role)))
+        else if (UserConstants.NOT_UNIQUE
+                .equals(roleService.checkRoleKeyUnique(role)))
         {
-            return AjaxResult.error("新增角色'" + role.getRoleName() + "'失败，角色权限已存在");
+            return AjaxResult
+                    .error("新增角色'" + role.getRoleName() + "'失败，角色权限已存在");
         }
         role.setCreateBy(getUsername());
         return toAjax(roleService.insertRole(role));
-
     }
 
     /**
@@ -112,24 +113,30 @@ public class SysRoleController extends BaseController
     {
         roleService.checkRoleAllowed(role);
         roleService.checkRoleDataScope(role.getRoleId());
-        if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role)))
+        if (UserConstants.NOT_UNIQUE
+                .equals(roleService.checkRoleNameUnique(role)))
         {
-            return AjaxResult.error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
+            return AjaxResult
+                    .error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
         }
-        else if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role)))
+        else if (UserConstants.NOT_UNIQUE
+                .equals(roleService.checkRoleKeyUnique(role)))
         {
-            return AjaxResult.error("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
+            return AjaxResult
+                    .error("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
         }
         role.setUpdateBy(getUsername());
-        
         if (roleService.updateRole(role) > 0)
         {
             // 更新缓存用户权限
             LoginUser loginUser = getLoginUser();
-            if (StringUtils.isNotNull(loginUser.getUser()) && !loginUser.getUser().isAdmin())
+            if (StringUtils.isNotNull(loginUser.getUser())
+                    && !loginUser.getUser().isAdmin())
             {
-                loginUser.setPermissions(permissionService.getMenuPermission(loginUser.getUser()));
-                loginUser.setUser(userService.selectUserByUserName(loginUser.getUser().getUserName()));
+                loginUser.setPermissions(permissionService
+                        .getMenuPermission(loginUser.getUser()));
+                loginUser.setUser(userService.selectUserByUserName(
+                        loginUser.getUser().getUserName()));
                 tokenService.setLoginUser(loginUser);
             }
             return AjaxResult.success();
