@@ -113,7 +113,7 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="${businessName}List" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="${className}List" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
 #foreach($column in $columns)
 #set($javaField=$column.javaField)
@@ -347,10 +347,10 @@
 </template>
 
 <script>
-import { list${BusinessName}, get${BusinessName}, del${BusinessName}, add${BusinessName}, update${BusinessName} } from "@/api/${moduleName}/${businessName}";
+import { list${ClassName}, get${ClassName}, del${ClassName}, add${ClassName}, update${ClassName} } from "@/api/${moduleName}/${className}";
 
 export default {
-  name: "${BusinessName}",
+  name: "${ClassName}",
 #if(${dicts} != '')
   dicts: [${dicts}],
 #end
@@ -373,7 +373,7 @@ export default {
       // 总条数
       total: 0,
       // ${functionName}表格数据
-      ${businessName}List: [],
+      ${className}List: [],
 #if($table.sub)
       // ${subTable.functionName}表格数据
       ${subclassName}List: [],
@@ -441,8 +441,8 @@ export default {
       }
 #end
 #end
-      list${BusinessName}(this.queryParams).then(response => {
-        this.${businessName}List = response.rows;
+      list${ClassName}(this.queryParams).then(response => {
+        this.${className}List = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -502,7 +502,7 @@ export default {
     handleUpdate(row) {
       this.reset();
       const ${pkColumn.javaField} = row.${pkColumn.javaField} || this.ids
-      get${BusinessName}(${pkColumn.javaField}).then(response => {
+      get${ClassName}(${pkColumn.javaField}).then(response => {
         this.form = response.data;
 #foreach ($column in $columns)
 #if($column.htmlType == "checkbox")
@@ -529,13 +529,13 @@ export default {
           this.form.${subclassName}List = this.${subclassName}List;
 #end
           if (this.form.${pkColumn.javaField} != null) {
-            update${BusinessName}(this.form).then(response => {
+            update${ClassName}(this.form).then(response => {
               this.#[[$modal]]#.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            add${BusinessName}(this.form).then(response => {
+            add${ClassName}(this.form).then(response => {
               this.#[[$modal]]#.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -548,7 +548,7 @@ export default {
     handleDelete(row) {
       const ${pkColumn.javaField}s = row.${pkColumn.javaField} || this.ids;
       this.#[[$modal]]#.confirm('是否确认删除${functionName}编号为"' + ${pkColumn.javaField}s + '"的数据项？').then(function() {
-        return del${BusinessName}(${pkColumn.javaField}s);
+        return del${ClassName}(${pkColumn.javaField}s);
       }).then(() => {
         this.getList();
         this.#[[$modal]]#.msgSuccess("删除成功");
@@ -591,7 +591,7 @@ export default {
     handleExport() {
       this.download('${baseUrl}/export', {
         ...this.queryParams
-      }, `${businessName}_#[[${new Date().getTime()}]]#.xlsx`)
+      }, `${className}_#[[${new Date().getTime()}]]#.xlsx`)
     }
   }
 };

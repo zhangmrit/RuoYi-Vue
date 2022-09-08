@@ -216,15 +216,15 @@ public class VelocityUtils
         }
         else if (template.contains("api.js.vm"))
         {
-            fileName = StringUtils.format("{}/api/{}/{}.js", vuePath, moduleName, businessName);
+            fileName = StringUtils.format("{}/api/{}/{}.js", vuePath, className, businessName);
         }
         else if (template.contains("index.vue.vm"))
         {
-            fileName = StringUtils.format("{}/views/{}/{}/index.vue", vuePath, moduleName, businessName);
+            fileName = StringUtils.format("{}/views/{}/{}/index.vue", vuePath, className, businessName);
         }
         else if (template.contains("index-tree.vue.vm"))
         {
-            fileName = StringUtils.format("{}/views/{}/{}/index.vue", vuePath, moduleName, businessName);
+            fileName = StringUtils.format("{}/views/{}/{}/index.vue", vuePath, className, businessName);
         }
         return fileName;
     }
@@ -312,8 +312,7 @@ public class VelocityUtils
     /**
      * 获取权限前缀
      *
-     * @param moduleName 模块名称
-     * @param businessName 业务名称
+     * @param tableName 表名称
      * @return 返回权限前缀
      */
     public static String getPermissionPrefix(String tableName)

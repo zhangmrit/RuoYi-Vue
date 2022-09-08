@@ -75,7 +75,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['${moduleName}:${businessName}:add']"
+          v-hasPermi="['${permissionPrefix}:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -93,7 +93,7 @@
     <el-table
       v-if="refreshTable"
       v-loading="loading"
-      :data="${businessName}List"
+      :data="${className}List"
       row-key="${treeCode}"
       :default-expand-all="isExpandAll"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
@@ -144,21 +144,21 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['${moduleName}:${businessName}:edit']"
+            v-hasPermi="['${permissionPrefix}:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-plus"
             @click="handleAdd(scope.row)"
-            v-hasPermi="['${moduleName}:${businessName}:add']"
+            v-hasPermi="['${permissionPrefix}:add']"
           >新增</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['${moduleName}:${businessName}:remove']"
+            v-hasPermi="['${permissionPrefix}:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -180,7 +180,7 @@
 #set($dictType=$column.dictType)
 #if("" != $treeParentCode && $column.javaField == $treeParentCode)
         <el-form-item label="${comment}" prop="${treeParentCode}">
-          <treeselect v-model="form.${treeParentCode}" :options="${businessName}Options" :normalizer="normalizer" placeholder="请选择${comment}" />
+          <treeselect v-model="form.${treeParentCode}" :options="${className}Options" :normalizer="normalizer" placeholder="请选择${comment}" />
         </el-form-item>
 #elseif($column.htmlType == "input")
         <el-form-item label="${comment}" prop="${field}">
@@ -277,12 +277,12 @@
 </template>
 
 <script>
-import { list${BusinessName}, get${BusinessName}, del${BusinessName}, add${BusinessName}, update${BusinessName} } from "@/api/${moduleName}/${businessName}";
+import { list${ClassName}, get${ClassName}, del${ClassName}, add${ClassName}, update${ClassName} } from "@/api/${moduleName}/${className}";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
 export default {
-  name: "${BusinessName}",
+  name: "${ClassName}",
 #if(${dicts} != '')
   dicts: [${dicts}],
 #end
@@ -296,9 +296,9 @@ export default {
       // 显示搜索条件
       showSearch: true,
       // ${functionName}表格数据
-      ${businessName}List: [],
+      ${className}List: [],
       // ${functionName}树选项
-      ${businessName}Options: [],
+      ${className}Options: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -364,8 +364,8 @@ export default {
       }
 #end
 #end
-      list${BusinessName}(this.queryParams).then(response => {
-        this.${businessName}List = this.handleTree(response.data, "${treeCode}", "${treeParentCode}");
+      list${ClassName}(this.queryParams).then(response => {
+        this.${className}List = this.handleTree(response.data, "${treeCode}", "${treeParentCode}");
         this.loading = false;
       });
     },
@@ -382,11 +382,11 @@ export default {
     },
 	/** 查询${functionName}下拉树结构 */
     getTreeselect() {
-      list${BusinessName}().then(response => {
-        this.${businessName}Options = [];
+      list${ClassName}().then(response => {
+        this.${className}Options = [];
         const data = { ${treeCode}: 0, ${treeName}: '顶级节点', children: [] };
         data.children = this.handleTree(response.data, "${treeCode}", "${treeParentCode}");
-        this.${businessName}Options.push(data);
+        this.${className}Options.push(data);
       });
     },
     // 取消按钮
@@ -452,7 +452,7 @@ export default {
       if (row != null) {
         this.form.${treeParentCode} = row.${treeCode};
       }
-      get${BusinessName}(row.${pkColumn.javaField}).then(response => {
+      get${ClassName}(row.${pkColumn.javaField}).then(response => {
         this.form = response.data;
 #foreach ($column in $columns)
 #if($column.htmlType == "checkbox")
@@ -473,13 +473,13 @@ export default {
 #end
 #end
           if (this.form.${pkColumn.javaField} != null) {
-            update${BusinessName}(this.form).then(response => {
+            update${ClassName}(this.form).then(response => {
               this.#[[$modal]]#.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            add${BusinessName}(this.form).then(response => {
+            add${ClassName}(this.form).then(response => {
               this.#[[$modal]]#.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -491,7 +491,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       this.#[[$modal]]#.confirm('是否确认删除${functionName}编号为"' + row.${pkColumn.javaField} + '"的数据项？').then(function() {
-        return del${BusinessName}(row.${pkColumn.javaField});
+        return del${ClassName}(row.${pkColumn.javaField});
       }).then(() => {
         this.getList();
         this.#[[$modal]]#.msgSuccess("删除成功");
