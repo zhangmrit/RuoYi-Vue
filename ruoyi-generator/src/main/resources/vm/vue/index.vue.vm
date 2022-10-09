@@ -347,7 +347,7 @@
 </template>
 
 <script>
-import { list${ClassName}, get${ClassName}, del${ClassName}, add${ClassName}, update${ClassName} } from "@/api/${moduleName}/${className}";
+import { list${ClassName}, get${ClassName}, del${ClassName}, add${ClassName}, update${ClassName} } from "@/api/${moduleName}/${businessName}";
 
 export default {
   name: "${ClassName}",
