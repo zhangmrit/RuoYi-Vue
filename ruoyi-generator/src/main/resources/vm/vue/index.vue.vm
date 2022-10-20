@@ -282,13 +282,13 @@
         <el-divider content-position="center">${subTable.functionName}信息</el-divider>
         <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
-            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd${subClassName}">添加</el-button>
+            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd${subBusinessName}">添加</el-button>
           </el-col>
           <el-col :span="1.5">
-            <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDelete${subClassName}">删除</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDelete${subBusinessName}">删除</el-button>
           </el-col>
         </el-row>
-        <el-table :data="${subclassName}List" :row-class-name="row${subClassName}Index" @selection-change="handle${subClassName}SelectionChange" ref="${subclassName}">
+        <el-table :data="${subclassName}List" :row-class-name="row${subBusinessName}Index" @selection-change="handle${subBusinessName}SelectionChange" ref="${subclassName}">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column label="序号" align="center" prop="index" width="50"/>
 #foreach($column in $subTable.columns)
@@ -347,10 +347,10 @@
 </template>
 
 <script>
-import { list${ClassName}, get${ClassName}, del${ClassName}, add${ClassName}, update${ClassName} } from "@/api/${moduleName}/${businessName}";
+import { list${BusinessName}, get${BusinessName}, del${BusinessName}, add${BusinessName}, update${BusinessName} } from "@/api/${moduleName}/${businessName}";
 
 export default {
-  name: "${ClassName}",
+  name: "${BusinessName}",
 #if(${dicts} != '')
   dicts: [${dicts}],
 #end
@@ -362,7 +362,7 @@ export default {
       ids: [],
 #if($table.sub)
       // 子表选中数据
-      checked${subClassName}: [],
+      checked${subBusinessName}: [],
 #end
       // 非单个禁用
       single: true,
@@ -441,7 +441,7 @@ export default {
       }
 #end
 #end
-      list${ClassName}(this.queryParams).then(response => {
+      list${BusinessName}(this.queryParams).then(response => {
         this.${className}List = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -502,7 +502,7 @@ export default {
     handleUpdate(row) {
       this.reset();
       const ${pkColumn.javaField} = row.${pkColumn.javaField} || this.ids
-      get${ClassName}(${pkColumn.javaField}).then(response => {
+      get${BusinessName}(${pkColumn.javaField}).then(response => {
         this.form = response.data;
 #foreach ($column in $columns)
 #if($column.htmlType == "checkbox")
@@ -529,13 +529,13 @@ export default {
           this.form.${subclassName}List = this.${subclassName}List;
 #end
           if (this.form.${pkColumn.javaField} != null) {
-            update${ClassName}(this.form).then(response => {
+            update${BusinessName}(this.form).then(response => {
               this.#[[$modal]]#.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            add${ClassName}(this.form).then(response => {
+            add${BusinessName}(this.form).then(response => {
               this.#[[$modal]]#.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -548,7 +548,7 @@ export default {
     handleDelete(row) {
       const ${pkColumn.javaField}s = row.${pkColumn.javaField} || this.ids;
       this.#[[$modal]]#.confirm('是否确认删除${functionName}编号为"' + ${pkColumn.javaField}s + '"的数据项？').then(function() {
-        return del${ClassName}(${pkColumn.javaField}s);
+        return del${BusinessName}(${pkColumn.javaField}s);
       }).then(() => {
         this.getList();
         this.#[[$modal]]#.msgSuccess("删除成功");
@@ -556,11 +556,11 @@ export default {
     },
 #if($table.sub)
 	/** ${subTable.functionName}序号 */
-    row${subClassName}Index({ row, rowIndex }) {
+    row${subBusinessName}Index({ row, rowIndex }) {
       row.index = rowIndex + 1;
     },
     /** ${subTable.functionName}添加按钮操作 */
-    handleAdd${subClassName}() {
+    handleAdd${subBusinessName}() {
       let obj = {};
 #foreach($column in $subTable.columns)
 #if($column.pk || $column.javaField == ${subTableFkclassName})
@@ -571,20 +571,20 @@ export default {
       this.${subclassName}List.push(obj);
     },
     /** ${subTable.functionName}删除按钮操作 */
-    handleDelete${subClassName}() {
-      if (this.checked${subClassName}.length == 0) {
+    handleDelete${subBusinessName}() {
+      if (this.checked${subBusinessName}.length == 0) {
         this.#[[$modal]]#.msgError("请先选择要删除的${subTable.functionName}数据");
       } else {
         const ${subclassName}List = this.${subclassName}List;
-        const checked${subClassName} = this.checked${subClassName};
+        const checked${subBusinessName} = this.checked${subBusinessName};
         this.${subclassName}List = ${subclassName}List.filter(function(item) {
-          return checked${subClassName}.indexOf(item.index) == -1
+          return checked${subBusinessName}.indexOf(item.index) == -1
         });
       }
     },
     /** 复选框选中数据 */
-    handle${subClassName}SelectionChange(selection) {
-      this.checked${subClassName} = selection.map(item => item.index)
+    handle${subBusinessName}SelectionChange(selection) {
+      this.checked${subBusinessName} = selection.map(item => item.index)
     },
 #end
     /** 导出按钮操作 */

@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询${functionName}列表
-export function list${ClassName}(query) {
+export function list${BusinessName}(query) {
   return request({
     url: '/${baseUrl}/list',
     method: 'get',
@@ -10,7 +10,7 @@ export function list${ClassName}(query) {
 }
 
 // 查询${functionName}详细
-export function get${ClassName}(${pkColumn.javaField}) {
+export function get${BusinessName}(${pkColumn.javaField}) {
   return request({
     url: '/${baseUrl}/' + ${pkColumn.javaField},
     method: 'get'
@@ -18,7 +18,7 @@ export function get${ClassName}(${pkColumn.javaField}) {
 }
 
 // 新增${functionName}
-export function add${ClassName}(data) {
+export function add${BusinessName}(data) {
   return request({
     url: '/${baseUrl}',
     method: 'post',
@@ -27,7 +27,7 @@ export function add${ClassName}(data) {
 }
 
 // 修改${functionName}
-export function update${ClassName}(data) {
+export function update${BusinessName}(data) {
   return request({
     url: '/${baseUrl}',
     method: 'put',
@@ -36,7 +36,7 @@ export function update${ClassName}(data) {
 }
 
 // 删除${functionName}
-export function del${ClassName}(${pkColumn.javaField}) {
+export function del${BusinessName}(${pkColumn.javaField}) {
   return request({
     url: '/${baseUrl}/' + ${pkColumn.javaField},
     method: 'delete'
@@ -44,7 +44,7 @@ export function del${ClassName}(${pkColumn.javaField}) {
 }
 
 // 导出${functionName}
-export function export${ClassName}(query) {
+export function export${BusinessName}(query) {
   return request({
     url: '/${baseUrl}/export',
     method: 'get',
