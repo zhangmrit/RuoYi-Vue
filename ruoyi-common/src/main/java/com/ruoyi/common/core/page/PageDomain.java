@@ -22,7 +22,7 @@ public class PageDomain
     private String isAsc = "asc";
 
     /** 分页参数合理化 */
-    private Boolean reasonable = true;
+    private Boolean reasonable = false;
 
     public String getOrderBy()
     {
