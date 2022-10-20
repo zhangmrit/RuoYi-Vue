@@ -165,9 +165,15 @@ public class GenUtils
      */
     public static String getBusinessName(String tableName)
     {
-        int lastIndex = tableName.lastIndexOf("_");
-        int nameLength = tableName.length();
-        return StringUtils.substring(tableName, lastIndex + 1, nameLength);
+        String tablePrefix = GenConfig.getTablePrefix();
+        if (StringUtils.isNotEmpty(tablePrefix))
+        {
+            String[] searchList = StringUtils.split(tablePrefix, ",");
+            tableName = replaceFirst(tableName, searchList);
+        }
+        String businessName = StringUtils.convertToCamelCase(tableName);
+        return StringUtils.uncapitalize(businessName);
+
     }
 
     /**
