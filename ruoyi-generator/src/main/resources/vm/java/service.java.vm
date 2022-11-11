@@ -1,7 +1,11 @@
 package ${packageName}.service;
 
 import java.util.List;
+import com.github.pagehelper.PageInfo;
 import ${packageName}.domain.${ClassName};
+import ${packageName}.model.request.${ClassName}AddReq;
+import ${packageName}.model.request.${ClassName}EditReq;
+import ${packageName}.model.response.${ClassName}Resp;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -20,5 +24,37 @@ public interface I${ClassName}Service extends IService<${ClassName}>
      * @return ${functionName}集合
      */
     public List<${ClassName}> queryList(${ClassName} ${className});
+
+    /**
+     * 查询${functionName} 响应列表
+     *
+     * @param ${className} ${functionName}
+     * @return ${functionName}集合
+     */
+    public List<${ClassName}Resp> queryRespList(${ClassName} ${className});
+
+    /**
+     * 查询${functionName} 响应分页
+     *
+     * @param ${className} ${functionName}
+     * @return ${functionName}集合
+     */
+    public PageInfo<${ClassName}Resp> queryRespPage(${ClassName} ${className});
+
+    /**
+     * 新增${functionName}
+     *
+     * @param ${className}AddReq 新增${functionName}请求
+     * @return boolean
+     */
+    public boolean save(${ClassName}AddReq ${className}AddReq);
+
+    /**
+     * 编辑${functionName}
+     *
+     * @param ${className}EditReq 编辑${functionName}请求
+     * @return boolean
+     */
+    public boolean update(${ClassName}EditReq ${className}EditReq);
 
 }

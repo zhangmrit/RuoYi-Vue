@@ -257,6 +257,10 @@ public class VelocityUtils
             fileName = StringUtils.format("{}/app/{}Controller.java", javaPath,
                     className);
         }
+        else if (template.contains("lang.json.vm"))
+        {
+            fileName = "lang/" + className + ".json";
+        }
         return fileName;
     }
 

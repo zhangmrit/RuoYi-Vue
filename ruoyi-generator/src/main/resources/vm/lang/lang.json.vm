@@ -1,0 +1,8 @@
+{
+    "$className":{
+      "title": "$functionName",
+#foreach ($column in $columns)
+      "$column.javaField": "$column.columnComment",
+#end
+    }
+}
