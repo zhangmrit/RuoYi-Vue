@@ -1,0 +1,53 @@
+package ${packageName}.model.response;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import java.io.Serializable;
+
+import lombok.Data;
+import lombok.experimental.Accessors;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+#if($table.tree)
+#end
+
+/**
+ * ${functionName}响应输出
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+#if($table.crud || $table.sub)
+
+#set($Entity="BaseEntity")
+#elseif($table.tree)
+#set($Entity="TreeEntity")
+#end
+@Data
+@Accessors(chain = true)
+@ApiModel(description = "${functionName}响应输出")
+public class ${ClassName}Resp implements Serializable
+{
+    private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+    /** $column.columnComment */
+#if($column.list)
+#set($parentheseIndex=$column.columnComment.indexOf("（"))
+#if($parentheseIndex != -1)
+#set($comment=$column.columnComment.substring(0, $parentheseIndex))
+#else
+#set($comment=$column.columnComment)
+#end
+#end
+    @ApiModelProperty(value = "$column.columnComment")
+    private $column.javaType $column.javaField;
+
+#end
+#if($table.sub)
+    /** $table.subTable.functionName信息 */
+    private List<${subClassName}> ${subclassName}List;
+
+#end
+}

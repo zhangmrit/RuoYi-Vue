@@ -1,0 +1,55 @@
+package ${packageName}.model.request;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import java.io.Serializable;
+
+import lombok.Data;
+import lombok.experimental.Accessors;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+#if($table.tree)
+#end
+
+/**
+ * 新增${functionName}请求
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+#if($table.crud || $table.sub)
+
+#set($Entity="BaseEntity")
+#elseif($table.tree)
+#set($Entity="TreeEntity")
+#end
+@Data
+@Accessors(chain = true)
+@ApiModel(description = "新增${functionName}请求")
+public class ${ClassName}AddReq implements Serializable
+{
+    private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+#if(!$column.pk)
+    /** $column.columnComment */
+#if($column.list)
+#set($parentheseIndex=$column.columnComment.indexOf("（"))
+#if($parentheseIndex != -1)
+#set($comment=$column.columnComment.substring(0, $parentheseIndex))
+#else
+#set($comment=$column.columnComment)
+#end
+#end
+    @ApiModelProperty(value = "$column.columnComment", required = $column.required)
+    private $column.javaType $column.javaField;
+
+#end
+#end
+#if($table.sub)
+    /** $table.subTable.functionName信息 */
+    private List<${subClassName}> ${subclassName}List;
+
+#end
+}

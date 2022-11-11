@@ -1,0 +1,104 @@
+package ${packageName}.controller;
+
+import java.util.Arrays;
+import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.recycle.app.common.base.BaseAppController;
+import com.recycle.common.annotation.Log;
+import com.recycle.app.common.base.BaseAppController;
+import com.recycle.app.common.base.R;
+import com.recycle.common.core.domain.AjaxResult;
+import com.recycle.common.enums.BusinessType;
+import ${packageName}.domain.${ClassName};
+import ${packageName}.service.I${ClassName}Service;
+import com.recycle.common.utils.poi.ExcelUtil;
+
+import io.swagger.annotations.*;
+#if($table.crud || $table.sub)
+import com.recycle.common.core.page.TableDataInfo;
+#elseif($table.tree)
+#end
+
+/**
+ * ${functionName}Controller
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Api(tags = "${functionName}接口")
+@RestController
+@RequestMapping("/${baseUrl}")
+public class ${ClassName}Controller extends BaseAppController
+{
+    @Autowired
+    private I${ClassName}Service ${className}Service;
+
+    /**
+     * 查询${functionName}列表
+     */
+    @GetMapping("/list")
+    @ApiOperation(value = "查询${functionName}列表", notes = "查询${functionName}列表")
+#if($table.crud || $table.sub)
+    public R list(${ClassName} ${className})
+    {
+        startPage();
+        List<${ClassName}> list = ${className}Service.queryList(${className});
+        return getDataTable(list);
+    }
+#elseif($table.tree)
+    public R list(${ClassName} ${className})
+    {
+        List<${ClassName}> list = ${className}Service.queryList(${className});
+        return getDataTable(list);
+    }
+#end
+
+    /**
+     * 获取${functionName}详细信息
+     */
+    @GetMapping(value = "/{${pkColumn.javaField}}")
+    @ApiOperation(value = "获取${functionName}详细信息", notes = "获取${functionName}详细信息")
+    public R getInfo(@ApiParam(value="${pkColumn.columnComment}", required = true) @PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField})
+    {
+        return R.data(${className}Service.getById(${pkColumn.javaField}));
+    }
+
+    /**
+     * 新增${functionName}
+     */
+    @PostMapping
+    @ApiOperation(value = "新增${functionName}", notes = "新增${functionName}")
+    public R add(@RequestBody ${ClassName}AddReq ${className}AddReq)
+    {
+        return toAjax(${className}Service.save(${className}AddReq));
+    }
+
+    /**
+     * 修改${functionName}
+     */
+    @PutMapping
+    @ApiOperation(value = "修改${functionName}", notes = "修改${functionName}")
+    public R edit(@RequestBody ${ClassName}EditReq ${className}EditReq)
+    {
+        return toAjax(${className}Service.update(${className}EditReq));
+    }
+
+    /**
+     * 删除${functionName}
+     */
+	@DeleteMapping("/{${pkColumn.javaField}s}")
+    @ApiOperation(value = "删除${functionName}", notes = "删除${functionName}")
+    public R remove(@ApiParam(value="${pkColumn.columnComment},多个用英文逗号分隔", required = true) @PathVariable ${pkColumn.javaType}[] ${pkColumn.javaField}s)
+    {
+        return toAjax(${className}Service.removeByIds(Arrays.asList(${pkColumn.javaField}s)));
+    }
+}

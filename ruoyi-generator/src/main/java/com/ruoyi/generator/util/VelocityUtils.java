@@ -143,6 +143,11 @@ public class VelocityUtils
         templates.add("vm/sql/sql.vm");
         templates.add("vm/js/api.js.vm");
         templates.add("vm/doc/doc.md.vm");
+        templates.add("vm/java/reqAdd.java.vm");
+        templates.add("vm/java/reqEdit.java.vm");
+        templates.add("vm/java/resp.java.vm");
+        templates.add("vm/java/convert.java.vm");
+        templates.add("vm/java/app.java.vm");
         if (GenConstants.TPL_CRUD.equals(tplCategory))
         {
             templates.add("vm/vue/index.vue.vm");
@@ -226,6 +231,31 @@ public class VelocityUtils
         else if (template.contains("index-tree.vue.vm"))
         {
             fileName = StringUtils.format("{}/views/{}/{}/index.vue", vuePath, moduleName, businessName);
+        }
+        else if (template.contains("reqAdd.java.vm"))
+        {
+            fileName = StringUtils.format("{}/model/request/{}AddReq.java",
+                    javaPath, className);
+        }
+        else if (template.contains("reqEdit.java.vm"))
+        {
+            fileName = StringUtils.format("{}/model/request/{}EditReq.java",
+                    javaPath, className);
+        }
+        else if (template.contains("resp.java.vm"))
+        {
+            fileName = StringUtils.format("{}/model/response/{}Resp.java",
+                    javaPath, className);
+        }
+        else if (template.contains("convert.java.vm"))
+        {
+            fileName = StringUtils.format("{}/model/convert/{}Convert.java",
+                    javaPath, className);
+        }
+        else if (template.contains("app.java.vm"))
+        {
+            fileName = StringUtils.format("{}/app/{}Controller.java", javaPath,
+                    className);
         }
         return fileName;
     }

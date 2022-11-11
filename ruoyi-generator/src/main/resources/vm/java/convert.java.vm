@@ -1,0 +1,65 @@
+package ${packageName}.model.convert;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+
+import java.util.List;
+
+import org.mapstruct.Mapper;
+
+import com.github.pagehelper.PageInfo;
+import ${packageName}.model.request.${ClassName}AddReq;
+import ${packageName}.model.request.${ClassName}EditReq;
+import ${packageName}.model.response.${ClassName}Resp;
+import ${packageName}.domain.${ClassName};
+
+
+/**
+ * ${functionName}转换器
+ *
+ * @author ${author}
+ * @since ${datetime}
+ */
+@Mapper(componentModel = "spring")
+public interface ${ClassName}Convert
+{
+
+    /**
+     * 新增${functionName}请求 转 ${functionName}实体
+     *
+     * @param ${className}AddReq ${functionName}新增请求
+     * @return {@link ${ClassName}}
+     */
+    ${ClassName} request2Domain(${ClassName}AddReq ${className}AddReq);
+
+    /**
+     * 编辑${functionName}请求 转 ${functionName}实体
+     *
+     * @param ${className}EditReq ${functionName}编辑请求
+     * @return {@link ${ClassName}}
+     */
+    ${ClassName} request2Domain(${ClassName}EditReq ${className}EditReq);
+
+    /**
+     * ${functionName}实体 转 ${functionName}响应
+     * @param ${className} ${functionName}实体
+     * @return {@link ${ClassName}Resp}
+     */
+    ${ClassName}Resp domain2Response(${ClassName} ${className});
+
+    /**
+     * ${functionName}实体列表 转 ${functionName}响应列表
+     * @param ${className}List ${functionName}实体列表
+     * @return {@link List}<{@link ${ClassName}Resp}>
+     */
+    List<${ClassName}Resp> domain2Response(List<${ClassName}> ${className}List);
+
+    /**
+     * ${functionName}实体分页 转 ${functionName}响应分页
+     * @param ${className}Page ${functionName}实体分页
+     * @return {@link PageInfo}<{@link ${ClassName}Resp}>
+     */
+    PageInfo<${ClassName}Resp> domain2Response(PageInfo<${ClassName}> ${className}Page);
+
+}
