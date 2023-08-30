@@ -404,6 +404,8 @@ export default {
         $column.javaField: null#if($foreach.count != $columns.size()),#end
 #end
 #end
+        orderByColumn: "${pkColumn.javaField}",
+        isAsc: "desc"
       },
       // 表单参数
       form: {},

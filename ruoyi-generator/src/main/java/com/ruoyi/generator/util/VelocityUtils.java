@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.ruoyi.generator.config.GenConfig;
 import org.apache.velocity.VelocityContext;
 
 import com.alibaba.fastjson2.JSON;
@@ -145,7 +146,16 @@ public class VelocityUtils
         templates.add("vm/doc/doc.md.vm");
         if (GenConstants.TPL_CRUD.equals(tplCategory))
         {
-            templates.add("vm/vue/index.vue.vm");
+            if (GenConfig.modal)
+            {
+                templates.add("vm/vue/index-modal.vue.vm");
+                templates.add("vm/vue/modal.vue.vm");
+                templates.add("vm/vue/detail.vue.vm");
+            }
+            else
+            {
+                templates.add("vm/vue/index.vue.vm");
+            }
         }
         else if (GenConstants.TPL_TREE.equals(tplCategory))
         {
@@ -222,6 +232,21 @@ public class VelocityUtils
         else if (template.contains("index.vue.vm"))
         {
             fileName = StringUtils.format("{}/views/{}/{}/index.vue", vuePath, moduleName, businessName);
+        }
+        else if (template.contains("index-modal.vue.vm"))
+        {
+            fileName = StringUtils.format("{}/views/{}/{}/index.vue", vuePath,
+                    moduleName, businessName);
+        }
+        else if (template.contains("modal.vue.vm"))
+        {
+            fileName = StringUtils.format("{}/views/{}/{}/modal.vue", vuePath,
+                    moduleName, businessName);
+        }
+        else if (template.contains("detail.vue.vm"))
+        {
+            fileName = StringUtils.format("{}/views/{}/{}/detail.vue", vuePath,
+                    moduleName, businessName);
         }
         else if (template.contains("index-tree.vue.vm"))
         {

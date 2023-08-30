@@ -1,0 +1,145 @@
+<template>
+  <div class="app-container">
+    <!-- 详情${functionName}对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="550px" append-to-body>
+      <el-descriptions :column="3" border :labelStyle="{ width: '100px' }">
+#foreach($column in $columns)
+#set($field=$column.javaField)
+#if($column.insert && !$column.pk)
+#if(($column.usableColumn) || (!$column.superColumn))
+#set($parentheseIndex=$column.columnComment.indexOf("（"))
+#if($parentheseIndex != -1)
+#set($comment=$column.columnComment.substring(0, $parentheseIndex))
+#else
+#set($comment=$column.columnComment)
+#end
+#set($dictType=$column.dictType)
+#if($column.htmlType == "input")
+        <el-descriptions-item label="${comment}" >
+          {{ form.${field} }}
+        </el-descriptions-item>
+#elseif($column.htmlType == "imageUpload")
+        <el-descriptions-item label="${comment}">
+          <image-preview :src="form.${field}"/>
+        </el-descriptions-item>
+#elseif($column.htmlType == "fileUpload")
+        <el-descriptions-item label="${comment}">
+          <file-list v-model="form.${field}"/>
+        </el-descriptions-item>
+#elseif($column.htmlType == "editor")
+        <el-descriptions-item label="${comment}">
+          <div v-html="form.${field}"></div>
+        </el-descriptions-item>
+#elseif($column.htmlType == "select" && "" != $dictType)
+        <el-descriptions-item label="${comment}">
+          <dict-tag :options="dict.type.${dictType}" :value="form.${field}"/>
+        </el-descriptions-item>
+#elseif($column.htmlType == "select" && $dictType)
+        <el-descriptions-item label="${comment}">
+          <dict-tag :options="dict.type.${dictType}" :value="form.${field}"/>
+        </el-descriptions-item>
+#elseif($column.htmlType == "checkbox" && "" != $dictType)
+        <el-descriptions-item label="${comment}">
+          <dict-tag :options="dict.type.${dictType}" :value="form.${field}"/>
+        </el-descriptions-item>
+#elseif($column.htmlType == "checkbox" && $dictType)
+        <el-descriptions-item label="${comment}">
+          <el-checkbox-group v-model="form.${field}">
+            <el-checkbox>请选择字典生成</el-checkbox>
+          </el-checkbox-group>
+        </el-descriptions-item>
+#elseif($column.htmlType == "radio" && "" != $dictType)
+        <el-descriptions-item label="${comment}">
+          <dict-tag :options="dict.type.${dictType}" :value="form.${field}"/>
+        </el-descriptions-item>
+#elseif($column.htmlType == "radio" && $dictType)
+        <el-descriptions-item label="${comment}">
+          <dict-tag :options="dict.type.${dictType}" :value="form.${field}"/>
+        </el-descriptions-item>
+#elseif($column.htmlType == "datetime")
+        <el-descriptions-item label="${comment}">
+          <date-range-picker v-model="form.${field}" />
+        </el-descriptions-item>
+#elseif($column.htmlType == "textarea")
+        <el-descriptions-item label="${comment}">
+          {{ form.${field} }}
+        </el-descriptions-item>
+#end
+#end
+#end
+#end
+      </el-descriptions>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import { get${BusinessName} } from "@/api/${moduleName}/${businessName}";
+
+export default {
+  name: "${BusinessName}Detail",
+#if(${dicts} != '')
+  dicts: [${dicts}],
+#end
+  data() {
+    return {
+      // 弹出层标题
+      title: "",
+      // 是否显示弹出层
+      open: false,
+      // 表单参数
+      form: {},
+    };
+  },
+  created() {
+  },
+  methods: {
+    // 取消按钮
+    cancel() {
+      this.open = false;
+      this.reset();
+    },
+    // 表单重置
+    reset() {
+      this.form = {
+#foreach ($column in $columns)
+#if($column.htmlType == "radio")
+        $column.javaField: #if($column.javaType == "Integer" || $column.javaType == "Long")0#else"0"#end#if($velocityCount != $columns.size()),#end
+
+#elseif($column.htmlType == "checkbox")
+        $column.javaField: []#if($velocityCount != $columns.size()),#end
+
+#else
+        $column.javaField: null#if($velocityCount != $columns.size()),#end
+
+#end
+#end
+      };
+#if($table.sub)
+      this.${subclassName}List = [];
+#end
+    },
+    /** 修改按钮操作 */
+    handleDetail(row) {
+      this.reset();
+      const ${pkColumn.javaField} = row.${pkColumn.javaField} || this.ids
+      get${BusinessName}(${pkColumn.javaField}).then(response => {
+        this.form = response.data;
+#foreach ($column in $columns)
+#if($column.htmlType == "checkbox")
+        this.form.$column.javaField = this.form.${column.javaField}.split(",");
+#end
+#end
+#if($table.sub)
+        this.${subclassName}List = response.data.${subclassName}List;
+#end
+        this.open = true;
+        this.title = "${functionName}详情";
+      });
+    },
+  }
+};
+</script>

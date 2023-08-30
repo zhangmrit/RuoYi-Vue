@@ -6,5 +6,7 @@ gen:
   packageName: com.ruoyi.biz
   # 自动去除表前缀，默认是false
   autoRemovePre: false
+  # 拆分modal，默认是false
+  modal: false
   # 表前缀（生成类名不会包含表前缀，多个用逗号分隔）
   tablePrefix: biz_
