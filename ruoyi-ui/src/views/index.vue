@@ -122,7 +122,7 @@
               <s> 满180251782 </s> <s> 满104180207 </s> <s> 满186866453 </s> <s> 满201396349 </s>
               <s> 满101456076 </s> <s> 满101539465 </s> <s> 满264312783 </s> <s> 满167385320 </s>
               <s> 满104748341 </s> <s> 满160110482 </s> <s> 满170801498 </s> <s> 满108482800 </s>
-              <s> 满101046199 </s> <a href="https://jq.qq.com/?_wv=1027&k=tKEt51dz" target="_blank">136919097</a>
+              <s> 满101046199 </s> <s> 满136919097 </s> <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=0vBbSb0ztbBgVtn3kJS-Q4HUNYwip89G&authKey=8irq5PhutrZmWIvsUsklBxhj57l%2F1nOZqjzigkXZVoZE451GG4JHPOqW7AW6cf0T&noverify=0&group_code=143961921" target="_blank">143961921</a>
             </p>
             <p>
               <i class="el-icon-chat-dot-round"></i> 微信：<a
@@ -146,6 +146,44 @@
             <span>更新日志</span>
           </div>
           <el-collapse accordion>
+            <el-collapse-item title="v3.8.6 - 2023-06-30">
+              <ol>
+                <li>支持登录IP黑名单限制</li>
+                <li>新增监控页面图标显示</li>
+                <li>操作日志新增消耗时间属性</li>
+                <li>屏蔽定时任务bean违规的字符</li>
+                <li>日志管理使用索引提升查询性能</li>
+                <li>日志注解支持排除指定的请求参数</li>
+                <li>支持自定义隐藏属性列过滤子对象</li>
+                <li>升级oshi到最新版本6.4.3</li>
+                <li>升级druid到最新版本1.2.16</li>
+                <li>升级fastjson到最新版2.0.34</li>
+                <li>升级spring-boot到最新版本2.5.15</li>
+                <li>升级element-ui到最新版本2.15.13</li>
+                <li>移除apache/commons-fileupload依赖</li>
+                <li>修复页面切换时布局错乱的问题</li>
+                <li>修复匿名注解Anonymous空指针问题</li>
+                <li>修复路由跳转被阻止时内部产生报错信息问题</li>
+                <li>修复isMatchedIp的参数判断产生空指针的问题</li>
+                <li>修复用户多角色数据权限可能出现权限抬升的情况</li>
+                <li>修复开启TopNav后一级菜单路由参数设置无效问题</li>
+                <li>修复DictTag组件value没有匹配的值时则展示value</li>
+                <li>优化文件下载出现的异常</li>
+                <li>优化选择图标组件高亮回显</li>
+                <li>优化弹窗后导航栏偏移的问题</li>
+                <li>优化修改密码日志存储明文问题</li>
+                <li>优化页签栏关闭其他出现的异常问题</li>
+                <li>优化页签关闭左侧选项排除首页选项</li>
+                <li>优化关闭当前tab页跳转最右侧tab页</li>
+                <li>优化缓存列表清除操作提示不变的问题</li>
+                <li>优化字符未使用下划线不进行驼峰式处理</li>
+                <li>优化用户导入更新时需获取用户编号问题</li>
+                <li>优化侧边栏的平台标题与VUE_APP_TITLE保持同步</li>
+                <li>优化导出Excel时设置dictType属性重复查缓存问题</li>
+                <li>连接池Druid支持新的配置connectTimeout和socketTimeout</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
             <el-collapse-item title="v3.8.5 - 2023-01-01">
               <ol>
                 <li>定时任务违规的字符</li>
@@ -908,7 +946,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "3.8.5"
+      version: "3.8.6"
     };
   },
   methods: {
