@@ -48,3 +48,14 @@ HELP.md
 
 #MAC
 .DS_Store
+
+#docker
+docker/mysql
+docker/redis
+docker/server
+docker/ui
+docker/upload
+!docker/**/readme.txt
+!docker/**/dockerfile
+!docker/**/conf
+

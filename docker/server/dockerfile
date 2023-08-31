@@ -1,0 +1,9 @@
+# 基础镜像
+FROM  openjdk:8-jre
+# author
+MAINTAINER wind
+
+COPY jar/ruoyi-admin.jar ruoyi-admin.jar
+
+# 启动服务端
+ENTRYPOINT ["java","-jar","ruoyi-admin.jar"]
