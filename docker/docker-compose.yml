@@ -3,12 +3,11 @@ services:
   ry-mysql:
     platform: linux/x86_64
     container_name: ry-mysql
-    image: mysql:5.7
     build:
       context: ./mysql
+      dockerfile: dockerfile
     ports:
       - "3306:3306"
-    restart: always
     volumes:
       - ./mysql/conf:/etc/mysql/conf.d
       - ./mysql/logs:/logs
@@ -26,9 +25,9 @@ services:
       MYSQL_ROOT_PASSWORD: password
   ry-redis:
     container_name: ry-redis
-    image: redis
     build:
       context: ./redis
+      dockerfile: dockerfile
     ports:
       - "6379:6379"
     restart: always
