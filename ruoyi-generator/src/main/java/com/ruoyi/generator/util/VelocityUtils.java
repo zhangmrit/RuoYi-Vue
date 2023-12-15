@@ -26,10 +26,10 @@ import cn.hutool.core.util.StrUtil;
 public class VelocityUtils
 {
     /** 项目空间路径 */
-    private static final String PROJECT_PATH           = "main/java";
+    private static final String PROJECT_PATH = "main/java";
 
     /** mybatis空间路径 */
-    private static final String MYBATIS_PATH           = "main/resources/mapper";
+    private static final String MYBATIS_PATH = "main/resources/mapper";
 
     /** 默认上级菜单，系统工具 */
     private static final String DEFAULT_PARENT_MENU_ID = "3";
@@ -129,11 +129,17 @@ public class VelocityUtils
 
     /**
      * 获取模板信息
-     *
+     * @param tplCategory 生成的模板
+     * @param tplWebType 前端类型
      * @return 模板列表
      */
-    public static List<String> getTemplateList(String tplCategory)
+    public static List<String> getTemplateList(String tplCategory, String tplWebType)
     {
+        String useWebType = "vm/vue";
+        if ("element-plus".equals(tplWebType))
+        {
+            useWebType = "vm/vue/v3";
+        }
         List<String> templates = new ArrayList<String>();
         templates.add("vm/java/domain.java.vm");
         templates.add("vm/java/mapper.java.vm");
@@ -154,16 +160,16 @@ public class VelocityUtils
             }
             else
             {
-                templates.add("vm/vue/index.vue.vm");
+                templates.add(useWebType + "/index.vue.vm");
             }
         }
         else if (GenConstants.TPL_TREE.equals(tplCategory))
         {
-            templates.add("vm/vue/index-tree.vue.vm");
+            templates.add(useWebType + "/index-tree.vue.vm");
         }
         else if (GenConstants.TPL_SUB.equals(tplCategory))
         {
-            templates.add("vm/vue/index.vue.vm");
+            templates.add(useWebType + "/index.vue.vm");
             templates.add("vm/java/sub-domain.java.vm");
         }
         return templates;
@@ -269,7 +275,7 @@ public class VelocityUtils
 
     /**
      * 根据列类型获取导入包
-     *
+     * 
      * @param genTable 业务表对象
      * @return 返回需要导入的包列表
      */
@@ -299,7 +305,7 @@ public class VelocityUtils
 
     /**
      * 根据列类型获取字典组
-     *
+     * 
      * @param genTable 业务表对象
      * @return 返回字典组
      */
@@ -318,7 +324,7 @@ public class VelocityUtils
 
     /**
      * 添加字典列表
-     *
+     * 
      * @param dicts 字典列表
      * @param columns 列集合
      */
