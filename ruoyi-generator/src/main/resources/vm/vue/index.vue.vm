@@ -401,7 +401,7 @@ export default {
         pageSize: 10,
 #foreach ($column in $columns)
 #if($column.query)
-        $column.javaField: null#if($foreach.count != $columns.size()),#end
+        $column.javaField: null,
 #end
 #end
         orderByColumn: "${pkColumn.javaField}",
