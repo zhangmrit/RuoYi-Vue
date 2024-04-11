@@ -14,7 +14,7 @@ cp ../sql/*.sql ./mysql/db
 
 # copy html
 echo "begin copy html "
-cp -r ../ruoyi-ui/dist/** ./ui/html
+rm -rf ./ui/html/dist && cp -r ../ruoyi-ui/dist ./ui/html
 
 
 # copy jar
