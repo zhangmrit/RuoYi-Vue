@@ -62,9 +62,9 @@ services:
       - "1024:80"
     restart: always
     volumes:
-      - ./ui/html/dist:/usr/share/nginx/html
-      - ./ui/conf/nginx.conf:/etc/nginx/nginx.conf
       - ./ui/logs:/var/log/nginx
-      - ./ui/conf.d:/etc/nginx/conf.d
+#      - ./ui/html/dist:/usr/share/nginx/html
+#      - ./ui/conf/nginx.conf:/etc/nginx/nginx.conf
+#      - ./ui/conf.d:/etc/nginx/conf.d
 
 
