@@ -436,16 +436,13 @@ export default {
       this.loading = true;
 #foreach ($column in $columns)
 #if($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
-      this.queryParams.params = {};
-#break
-#end
-#end
-#foreach ($column in $columns)
-#if($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
       if (null != this.daterange${AttrName} && '' != this.daterange${AttrName}) {
-        this.queryParams.params["begin${AttrName}"] = this.daterange${AttrName}[0];
-        this.queryParams.params["end${AttrName}"] = this.daterange${AttrName}[1];
+        this.queryParams.begin${AttrName} = this.daterange${AttrName}[0];
+        this.queryParams.end${AttrName} = this.daterange${AttrName}[1];
+      }else{
+        this.queryParams.begin${AttrName} = null;
+        this.queryParams.end${AttrName} = null;
       }
 #end
 #end
