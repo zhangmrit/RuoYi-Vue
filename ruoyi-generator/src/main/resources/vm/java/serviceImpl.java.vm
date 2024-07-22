@@ -107,8 +107,8 @@ public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Mapper, ${C
         }
 #end
 #elseif($queryType == "BETWEEN")
-        if (${className}.begin$AttrName != null && ${className}.end$AttrName != null) {
-            lqw.between(${ClassName}::get$AttrName, ${className}.begin$AttrName, ${className}.end$AttrName);
+        if (${className}.getBegin$AttrName() != null && ${className}.getEnd$AttrName() != null) {
+            lqw.between(${ClassName}::get$AttrName, ${className}.getBegin$AttrName(), ${className}.getEnd$AttrName());
         }
 #end
 #end
