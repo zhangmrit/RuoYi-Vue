@@ -1,4 +1,3 @@
-version : '3.8'
 services:
   ry-mysql:
     platform: linux/x86_64
@@ -7,7 +6,7 @@ services:
       context: ./mysql
       dockerfile: dockerfile
     ports:
-      - "3308:3306"
+      - "3306:3306"
     volumes:
       - ./mysql/conf:/etc/mysql/conf.d
       - ./mysql/logs:/logs
@@ -27,7 +26,7 @@ services:
     container_name: ry-redis
     image: redis
     ports:
-      - "6380:6379"
+      - "6379:6379"
     restart: always
     volumes:
       - ./redis/conf/redis.conf:/home/redis/redis.conf
