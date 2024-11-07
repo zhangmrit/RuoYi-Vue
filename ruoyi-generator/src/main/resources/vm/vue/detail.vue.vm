@@ -56,10 +56,6 @@
         <el-descriptions-item label="${comment}">
           <dict-tag :options="dict.type.${dictType}" :value="form.${field}"/>
         </el-descriptions-item>
-#elseif($column.htmlType == "datetime")
-        <el-descriptions-item label="${comment}">
-          <date-range-picker v-model="form.${field}" />
-        </el-descriptions-item>
 #elseif($column.htmlType == "textarea")
         <el-descriptions-item label="${comment}">
           {{ form.${field} }}
@@ -108,13 +104,10 @@ export default {
 #foreach ($column in $columns)
 #if($column.htmlType == "radio")
         $column.javaField: #if($column.javaType == "Integer" || $column.javaType == "Long")0#else"0"#end#if($velocityCount != $columns.size()),#end
-
 #elseif($column.htmlType == "checkbox")
         $column.javaField: []#if($velocityCount != $columns.size()),#end
-
 #else
         $column.javaField: null#if($velocityCount != $columns.size()),#end
-
 #end
 #end
       };
