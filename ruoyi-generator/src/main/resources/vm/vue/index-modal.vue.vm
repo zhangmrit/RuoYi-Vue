@@ -292,7 +292,8 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.$refs.${businessName}Modal.handleUpdate(row);
+      const ${pkColumn.javaField} = row.${pkColumn.javaField} || this.ids
+      this.$refs.${businessName}Modal.handleUpdate(${pkColumn.javaField});
     },
     /** 详情按钮操作 */
     handleDetail(row) {

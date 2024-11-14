@@ -207,9 +207,8 @@ export default {
       this.title = "添加${functionName}";
     },
     /** 修改按钮操作 */
-    handleUpdate(row) {
+    handleUpdate(${pkColumn.javaField}) {
       this.reset();
-      const ${pkColumn.javaField} = row.${pkColumn.javaField} || this.ids
       get${BusinessName}(${pkColumn.javaField}).then(response => {
         this.form = response.data;
 #foreach ($column in $columns)
